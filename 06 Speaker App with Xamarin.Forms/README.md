@@ -18,7 +18,7 @@ The `App.xaml` and its according `App.xaml.cs` file are the main entry point for
 MainPage = new Conference.MainPage();
 ```
 
-As we are working with multiple views here, it is a good idea, to set up a `NavigationPage` container which is one of the [Xamarin.Forms pre-defined page containers](https://developer.xamarin.com/guides/xamarin-forms/controls/pages) that allows navigation between multiple pages and set its initial UI to the `MainPage` instance.
+As we are working with multiple views later, it is a good idea, to set up a `NavigationPage` container which is one of the [Xamarin.Forms pre-defined page containers](https://developer.xamarin.com/guides/xamarin-forms/controls/pages) that allows navigation between multiple pages and set its initial UI to the `MainPage` instance.
 
 ```charp
 public App()
@@ -30,7 +30,47 @@ public App()
 }
 ```
 
-## 2. Creating the main UI
+## 2. Create the models
+Now it's time to give thought to the models that we want to use. Actually, our conference should deal with two types of objects: **Speakers** and **Sessions**. So let's create a model class for each. Before, let's take a second and think about where to place them. In a cross-platform scenario and in general in every cleanly seperated code project we should also be aware of what's the best project to put a new function, class or service in!
+
+As the models we want to create do not have any platform specifics and are not used in a specific scenario only, we should definitely put them into a new project that holds everything we want to span across multiple usage scenarios. For this, let's create a new ***Portable Class Library*** by right-clicking on the Solution in Visual Studio an selecting <kbd>Add</kbd> <kbd>New Project...</kbd>. In the ***Visual C#*** section, we will find the ***Class Library (Portable)*** project template. Let's call it ***Conference.Core*** and add it to our solution.
+
+![Add Portable Class Library in Visual Studio Screenshot](../Misc/vsaddpcl.png)
+
+> **Hint:**  At this point, we should take a short digression on Portable Class Libaries. In .NET, these are projects that combine a subset of APIs and Types and offer the developer to use these across multiple projects. Inside the settings of Portable Class Libaries, we can choose which platforms, we want to target and the Library will offer all of the overlapping APIs. Unfortunately, this drives fragmentation and whenever you want to increase the target platform range of the library, some APIs might get lost and you have to rethink your code. That is why the .NET Foundation introduced [.NET Standard](https://blogs.msdn.microsoft.com/dotnet/2016/09/26/introducing-net-standard/), which is a pre-defined set of APIs that every .NET platform has to implement. So whenever we choose .NET Standard as target, we can combine the library with any other .NET platform that supports this standard. And (surprise): Xamarin does!
+
+To change the target platforms of our Portable Class Library, just right-click on it, choose <kbd>Properties</kbd> and click the ***Target .NET Platform Standard*** link, that you can find in the first ***Library*** tab, to make out Library super compatible and future proof.
+
+Now we can finally create the classes for the **Speakers** and **Sessions** models.
+
+```csharp
+public class Speaker
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Title { get; set; }
+    public string Bio { get; set; }
+    public string ImagePath { get; set; }
+}
+```
+
+```csharp
+public class Session
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string Room { get; set; }
+    public DateTime StartTime { get; set; }
+    public string SpeakerId { get; set; }
+}
+```
+
+The last thing, we need to do is connecting the Portable Class Library with our Xamarin.Forms project. For this, just right-click the ***References*** folder and select <kbd>Add Reference...</kbd>. A new Windows opens that allows to manage project references. In the ***projects*** tab, we find the recently created ***Conference.Core*** project and can add it to the Xamarin.Forms project by simply checking the box next to it.
+
+![Add References in Visual Studio Screenshot](../Misc/vsaddreference.png)
+
+## 3. Creating the main UI
+### 2.1 Tabs
 When taking a look at the `MainPage.xaml` file, we can see, that Xamarin.Forms created a new page of type `ContentPage` for us. As we want to create a page with multiple tabs, we need to change this to a `TabbedPage`, which is a [pre-defined Xamarin.Forms Layout](https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/) and create two `ContentPage`s inside which will define the content of our session and speaker tabs.
 
 ```xaml
