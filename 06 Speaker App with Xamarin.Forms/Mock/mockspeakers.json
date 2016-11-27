@@ -1,1 +1,23 @@
-[{"Id":"1","Name":"Kurt Mendoza","Title":"Technical Evangelist","Bio":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.","ImagePath":"https://randomuser.me/api/portraits/men/9.jpg"},{"Id":"2","Name":"Pauline Price","Title":"Account Executive","Bio":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.","ImagePath":"https://randomuser.me/api/portraits/women/71.jpg"},{"Id":"3","Name":"Liam Wagner","Title":"Technical Solutions Professional","Bio":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.","ImagePath":"https://randomuser.me/api/portraits/men/83.jpg"}]
+[
+    {
+        "Id": "1",
+        "Name": "Kurt Mendoza",
+        "Title": "Technical Evangelist",
+        "Bio": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        "ImagePath": "https://randomuser.me/api/portraits/men/9.jpg"
+    },
+    {
+        "Id": "2",
+        "Name": "Pauline Price",
+        "Title": "Account Executive",
+        "Bio": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        "ImagePath": "https://randomuser.me/api/portraits/women/71.jpg"
+    },
+    {
+        "Id": "3",
+        "Name": "Liam Wagner",
+        "Title": "Technical Solutions Professional",
+        "Bio": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        "ImagePath": "https://randomuser.me/api/portraits/men/83.jpg"
+    }
+]

@@ -289,16 +289,31 @@ public class ConferenceService
 ```
 
 ### 5.2 Talking to a webserver via HttpClient
-As you can see, we are just returning empty lists at the moment so it is time to fill them. For this, we need to talk a webserver, which is where the `HttpClient` class comes into play. Good thing, it is part of the .NET Standard, so we can use it easily on our Portable Class Library. `HttpClient` offers the very simple to use `GetStringAsync(string)` method, that sends a GET-Request to an URL and returns its string-content.
+As you can see, we are just returning empty lists at the moment so it is time to fill them. For this, we need to talk a webserver, which is where the `HttpClient` class comes into play. It offers the very simple to use `GetStringAsync(string)` method, that sends a GET-Request to an URL and returns its string-content.
+
+Unfortunately, HTTP requests are handled individually on each platform which entails, that we can't use the `HttpClass` itself in our Portable Class Libary. But what we can do, is creating an interface `IHttpService` that every platform has to implement by itself.
+
+```csharp
+public interface IHttpService
+{
+    Task<string> GetStringAsync(string url);
+}
+```
+
+We can use this interface inside our `ConferenceService` and simply gives implement it on platform-level later.
+
+> **Hint:** We used the concept of *Dependency Injection* here for the first time, which is fundamentally important for a clean platform independent architecture. The processing of the downloaded data can be done platform idependently, so we should implement it here. The download itslef has to be implemented for each platform, but we can split it here and make the platform provide and implementaion of an interface that we use at runtime.
+
+We can now use this interface in our `ConferenceService` and tell the constuctor, that it needs and implementation of our `IHttpService` interface, when it gets instanciated.
 
 ```csharp
 public class ConferenceService
 {
-    private HttpClient httpClient;
+    private IHttpService httpService;
 
-    public ConferenceService()
+    public ConferenceService(IHttpService httpServiceImpl)
     {
-        httpClient = new HttpClient();
+        httpService = httpServiceImpl;
     }
 
     // ...
@@ -308,20 +323,142 @@ public class ConferenceService
 ### 5.3 Download session and speaker information
 We will be talking about backends in detail in the next module so let's just pretend we had a powerful backend here and mock the data. For this, I've prepated two JSON files for a list of demo sessions and speakers and [uploaded them to GitHub](). You can see, that they match the structure of our `Session` and `Speaker` classes.
 
-As you will have noticed, the data is formatted in JSON, which is a common and widely spread standard for data exchange. We need a way to convert JSON to C# classes and vice versa so let's get some help from the community and add the great [Json.NET NuGet package](https://www.nuget.org/packages/newtonsoft.json/) to our project, which allows us to work with JSON easily.
+As you will have noticed, the data is formatted in JSON, which is a common and widely spread standard for data exchange. We need a way to convert JSON to C# classes and vice versa so let's get some help from the community and add the great [Json.NET NuGet package](https://www.nuget.org/packages/newtonsoft.json/), which allows us to work with JSON easily. 
+
+> **Important:** You need to add the Json.NET package to every project that uses it later: The Portable Class Library and the platoform projects. When using Visual Studio on Windows, you can just right-click the Solution file and select <kbd>Manage NuGet Packages for Solution...</kbd>.
 
 ![Add Json.NET NuGet package in Visual Studio Screenshot](../Misc/vsaddjsonnet.png)
 
 Now we can download the mocked Session and Speaker lists form the GitHub servers and convert them into instances of our C# classes easily.
 
 ```csharp
-
+public async Task<List<Session>> GetSessionsAsync()
+{
+    var json = await httpClient.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/06%20Speaker%20App%20with%20Xamarin.Forms/Mock/mocksessions.json");
+    var sessions = JsonConvert.DeserializeObject<List<Session>>(json);
+    return sessions;
+}
 ```
 
+Let's do the same for our `GetSpeakersAsync()` method with the other JSON file and we can move over to filling the MainViewModel.
 
-So let's send our `HttpClient`'s GET-Request to them.
+```csharp
+public async Task<List<Speaker>> GetSpeakersAsync()
+{
+    var json = await httpService.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/06%20Speaker%20App%20with%20Xamarin.Forms/Mock/mockspeakers.json");
+    var speakers = JsonConvert.DeserializeObject<List<Speaker>>(json);
+    return speakers;
+}
+```
 
+### 5.4 Use the ConferenceService in the ViewModel
+Now that we created methods that download the conference information from the (mocked) server and converts them to `List<Speaker>` and `List<Session>` we can move over to our `MainViewModel` to call them there.
 
+For this, our ViewModel needs an instance of the `ConferenceService` of course. But there is a little problem: As the `ConferenceService` needs an implementaion of `IHttpService` to get instanciated, we cannot to the instanciation inside the `MainViewModel`. It also lives in the Portable Class Library and does not (and should not) know, how HTTP requests works on the plaforms.
+
+To solve this, we use the same trick again, that we already used in the `conferenceService` class: Dependency Injection. By claiming a `ConferenceService` implementaion in the ViewModel's contructor, someone else is responsoble for creating a `ConferenceService` and providing it to our ViewModel. Someone, who *has* knowledge of HTTP requests: The plaforms itslef. Our dependency chain grows!
+
+```csharp
+public class MainViewModel : INotifyPropertyChanged
+{
+    private ConferenceService conferenceService;
+
+    public MainViewModel(ConferenceService conferenceServiceImpl)
+    {
+        conferenceService = conferenceServiceImpl;
+    }
+
+    // ...
+}
+```
+
+There is no problem with that. On the contrary, this is good and clean. Remember, who is instanciating the `MainViewModel`! Right, it is the view. It's our `MainPage.xaml.cs` file that calls `viewModel = new MainViewModel();` in its constuctor. The MainPage lives inside the Xamarin.Forms project so it has platform knowledge and can implement `IHttpService` easily.
+
+> **Hint:** Sorry for taking so much time for *Dependency Injection* but this is the hardest part to understand. If you got this, you can master incredibly clean and nested architectures easily and reuse your code like you have never imagined!
+
+Back to the ViewModel. As it can make use of the `Conference` service now, we should create a short and simple `RefreshAsync()` method, that loads the data into the `ObservableCollection`s that get provided to the views.
+
+```csharp
+public async Task RefreshAsync()
+{
+    IsBusy = true;
+
+    // Download
+    var sessions = await conferenceService.GetSessionsAsync();
+    var speakers = await conferenceService.GetSpeakersAsync();
+
+    // Fill lists
+    Sessions = new ObservableCollection<Session>(sessions);
+    Speakers = new ObservableCollection<Speaker>(speakers);
+
+    IsBusy = false;
+}
+```
+
+### 5.5 Trigger the download from the view
+Now we just have to get back to the `MainPage.xaml.cs` file and trigger our recently created `RefreshAsync` method whenever the MainPage got loaded. For this, we override the `OnAppearing` lifecycle method and attach out call to it.
+
+```csharp
+protected override async void OnAppearing()
+{
+    base.OnAppearing();
+    await viewModel.RefreshAsync();
+}
+```
+
+Actually that is all we need to do. But you might have noticed, that our project does not build successfully anymore because the `MainViewModel` can not get instanciated with the default constuctor anymore. So we need to serve the mechanisms of Dependency Injection.
+
+### 5.6 Play the Dependency Injection game
+Remember, that we created some dependencies, when creating our services.
+
+1. The `ConferenceService` needs an implementaion of `IHttpService`
+2. The `MainViewModel` needs an instance of `ConferenceService` which needs an implementaion of `IHttpService`
+
+To solve the first dependency, we should finally implement this `IHttpService` interface in our Xamarin.Forms project. So let's create a `FormsHttpService` class here.
+
+To add the `HttpService` class to our project, we need to install the [Microsoft HTTP Client Libraries NuGet package](https://www.nuget.org/packages/Microsoft.Net.Http) to our project. Usually, we had to implement the interface into every platform project, but thanks to the community again, we can use the [ModernHttpClient NuGet package](https://www.nuget.org/packages/modernhttpclient/) to avoid this. So add them both to your Xamarin.Forms project and create the `FormsHttpService`. 
+
+```csharp
+using ModernHttpClient;
+using System.Net.Http;
+
+public class FormsHttpService : IHttpService
+{
+    private HttpClient httpClient;
+
+    public FormsHttpService()
+    {
+        // Create a cross-plaform HttpClient for Xamarin
+        httpClient = new HttpClient(new NativeMessageHandler());
+    }
+
+    public async Task<string> GetStringAsync(string url)
+    {
+        return await httpClient.GetStringAsync(url);
+    }
+}
+```
+
+Now that we have everything we need to build our Dependency Injection chain, we can go back to the `MainPage.xaml.cs` file and instanciate the `MainViewModel` with its dependecies.
+
+```csharp
+public MainPage()
+{
+    InitializeComponent();
+
+    var httpService = new FormsHttpService();
+    var conferenceService = new ConferenceService(httpService);
+    viewModel = new MainViewModel(conferenceService);
+
+    BindingContext = viewModel;
+}
+```
+
+Everything can be instanciated correctly now and we can run our application and finally download the data we need. So let's see how the application looks like on the different platforms!
+
+![Screenshot of the current App status on iOS, Android and Windows](../Misc/formsconferencefull.png)
+
+> **Hint:** Please keep in mind, that we made everything dramatically more complicated than needed. Of course, we could have implemented everything insinde the Xamarin.Forms project without any need of Dependency Injection. But consider, that we can reuse the ViewModels and Services in **any other** .NET project! 
 
 ## 6. Create the Details Pages
 

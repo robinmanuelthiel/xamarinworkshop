@@ -35,10 +35,9 @@ namespace Conference.Frontend
             set { sessions = value; OnPropertyChanged(); }
         }
 
-        public MainViewModel()
+        public MainViewModel(ConferenceService conferenceServiceImpl)
         {
-            conferenceService = new ConferenceService();
-
+            conferenceService = conferenceServiceImpl;
         }
 
         public async Task RefreshAsync()

@@ -11,30 +11,24 @@ namespace Conference.Frontend
 {
     public class ConferenceService
     {
-        private HttpClient httpClient;
+        private IHttpService httpService;
 
-        public ConferenceService()
+        public ConferenceService(IHttpService httpServiceImpl)
         {
-            httpClient = new HttpClient();
+            httpService = httpServiceImpl;
         }
 
         public async Task<List<Session>> GetSessionsAsync()
         {
-            var json = await httpClient.GetStringAsync("");
+            var json = await httpService.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/06%20Speaker%20App%20with%20Xamarin.Forms/Mock/mocksessions.json");
             var sessions = JsonConvert.DeserializeObject<List<Session>>(json);
             return sessions;
         }
 
         public async Task<List<Speaker>> GetSpeakersAsync()
         {
-            var speakers = new List<Speaker>();
-            speakers.Add(new Speaker { Id = "1", Name = "Kurt Mendoza", Title = "Technical Evangelist", Bio = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", ImagePath = "https://randomuser.me/api/portraits/men/9.jpg" });
-            speakers.Add(new Speaker { Id = "2", Name = "Pauline Price", Title = "Account Executive", Bio = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", ImagePath = "https://randomuser.me/api/portraits/women/71.jpg" });
-            speakers.Add(new Speaker { Id = "3", Name = "Liam Wagner", Title = "Technical Solutions Professional", Bio = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.", ImagePath = "https://randomuser.me/api/portraits/men/83.jpg" });
-
-            var json = JsonConvert.SerializeObject(speakers);
-
-
+            var json = await httpService.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/06%20Speaker%20App%20with%20Xamarin.Forms/Mock/mockspeakers.json");
+            var speakers = JsonConvert.DeserializeObject<List<Speaker>>(json);
             return speakers;
         }
     }

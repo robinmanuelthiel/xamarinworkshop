@@ -16,7 +16,11 @@ namespace Conference.Forms
         public MainPage()
         {
             InitializeComponent();
-            viewModel = new MainViewModel();
+
+            var httpService = new FormsHttpService();
+            var conferenceService = new ConferenceService(httpService);
+            viewModel = new MainViewModel(conferenceService);
+
             BindingContext = viewModel;
         }
 
