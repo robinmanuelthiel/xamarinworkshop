@@ -1,0 +1,37 @@
+[
+    {
+        "Id": "1",
+        "Name": "Xamarin for Beginners",
+        "Room": "442",
+        "StartTime": "2016-12-08T10:00:00",
+        "SpeakerId": "1"
+    },
+    {
+        "Id": "2",
+        "Name": "Shared Layouts with Xamarin.Forms",
+        "Room": "435",
+        "StartTime": "2016-12-08T10:00:00",
+        "SpeakerId": "2"
+    },
+    {
+        "Id": "3",
+        "Name": "Clean MVVM architectures",
+        "Room": "310",
+        "StartTime": "2016-12-08T12:00:00",
+        "SpeakerId": "1"
+    },
+    {
+        "Id": "4",
+        "Name": "Test you Mobile Application with Xamarin Test Cloud",
+        "Room": "112",
+        "StartTime": "2016-12-08T13:00:00",
+        "SpeakerId": "3"
+    },
+    {
+        "Id": "5",
+        "Name": "One code to rule them all",
+        "Room": "310",
+        "StartTime": "2016-12-08T14:00:00",
+        "SpeakerId": "2"
+    }
+]
