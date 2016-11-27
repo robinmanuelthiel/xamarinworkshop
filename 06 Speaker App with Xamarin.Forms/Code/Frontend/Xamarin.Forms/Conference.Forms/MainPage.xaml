@@ -1,0 +1,34 @@
+﻿<TabbedPage
+    x:Class="Conference.Forms.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Conference"
+    Title="Conference">
+
+    <!-- Sessions Tab -->
+    <ContentPage Title="Sessions">
+        <ListView ItemsSource="{Binding Sessions}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell
+                        Detail="{Binding Room}"
+                        Text="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage>
+
+    <!-- Speakers Tab -->
+    <ContentPage Title="Speakers">
+        <ListView ItemsSource="{Binding Speakers}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell
+                        Detail="{Binding Title}"
+                        ImageSource="{Binding ImagePath}"
+                        Text="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage>
+</TabbedPage>
