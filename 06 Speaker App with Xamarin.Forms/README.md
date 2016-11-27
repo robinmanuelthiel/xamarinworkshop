@@ -135,22 +135,22 @@ The ViewModels for `SessionDetailsPage` and `SpeakerDetailsPage` look similar bu
 1. Implement the `INotifyPropertyChanged` interface as we did it in the `MainViewModel` above
 1. Copy the `PropertyChanged` event and `OnPropertyChanged` method from the `MainViewModel` to the new ViewModels
 1. Add a bindable property for `CurrentSession` and `CurrentSpeaker` to the according ViewModels
-    ```csharp
-    private Speaker currentSpeaker;
-    public Speaker CurrentSpeaker
-    {
-        get { return currentSpeaker; }
-        set { currentSpeaker = value; OnPropertyChanged(); }
-    }
-    ```
-    ```csharp
-    private Session currentSession;
-    public Session CurrentSession
-    {
-        get { return currentSession; }
-        set { currentSession = value; OnPropertyChanged(); }
-    }
-    ```
+```csharp
+private Speaker currentSpeaker;
+public Speaker CurrentSpeaker
+{
+    get { return currentSpeaker; }
+    set { currentSpeaker = value; OnPropertyChanged(); }
+}
+```
+```csharp
+private Session currentSession;
+public Session CurrentSession
+{
+    get { return currentSession; }
+    set { currentSession = value; OnPropertyChanged(); }
+}
+```
 
 That's it. Now we have three ViewModels, one for each view that we can bind to the UI that we will create in the next step.
 
@@ -221,8 +221,6 @@ Inside the `ListView` we can also define, how a displayed item should look like.
 > **Hint:** Every element in XAML has its own Binding Context. Inside a `ListView.ItemTemplate`, this context differs from the `ListView` itself. While it has the page's context (a `MainViewModel` in this case), it gives a single instance of its `ItemsSource` to its children. This means `ListView.ItemTemplate` has a single item as its Binding Context.
 
 We could either define our own item layout here or chose one of the [predefined Xamarin.Forms Cells](https://developer.xamarin.com/guides/xamarin-forms/controls/cells/). The [Text Cell](https://developer.xamarin.com/api/type/Xamarin.Forms.TextCell/) looks like something we can use. It offers a primary and secondary text, which fits perfectly for the session list and can be bound to the `Name` and `Room` properties that we implemented in our `Session` model.
-
-
 
 ```xml
 <!-- Sessions Tab -->
