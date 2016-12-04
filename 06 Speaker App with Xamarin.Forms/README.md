@@ -1,6 +1,8 @@
 # Conference App with Xamarin.Forms
 To dig deeper into the workflow of Xamarin development, we will create a real application in the next modules: A conference app. To keep UI work simple, we will use Xamarin.Forms for this to create the UI only once and share it across the other platforms. Please keep in mind, that Xamarin.Forms layouts are defined in XAML and will be rendered to **native** controls on each platform.
 
+> **Hint:** If you got stuck during this module or lost the overview on where to place which code, you can always take the look at the [finished and working project](./Code) that is attached to this module.
+
 We will create a conference app that will list all sessions with their speakers in seperate tabs. Both, sessions and speakers will also have details pages that will be shown when the user tabs on an item. This results in having three views for the app:
 
 - `MainPage` with two taps for sessions and speakers
@@ -646,4 +648,4 @@ As you might have noticed, structure is very important to me. I just want to pre
     - Contains logic that can be shared with every platoform supported by Xamarin.Forms (iOS, Android, Windows, ...)
     - Defines unified layouts and logic that gets rendered on each platform independently
 
-As structure is so important, it might be a good idea to add Solution Folders. These can help you structuring multiple projects. Take a look at the [final code](./Code) that you can find in this repository.
+As structure is so important, it might be a good idea to add Solution Folders. These can help you structuring multiple projects. Take a look at the [finished and working project](./Code) that you can find in this repository.
