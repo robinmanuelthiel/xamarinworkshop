@@ -459,7 +459,191 @@ Everything can be instanciated correctly now and we can run our application and 
 > **Hint:** Please keep in mind, that we made everything dramatically more complicated than needed. Of course, we could have implemented everything insinde the Xamarin.Forms project without any need of Dependency Injection. But consider, that we can reuse the ViewModels and Services in **any other** .NET project! 
 
 ## 6. Create the Details Pages
+Let's quickly create two new pages for the speaker and session details. The procedure is the same as we already did with the `MainPage`: Create the layout, bind it to the ViewModel and add it as Binding Context.
+
+### 6.1 Create the views
+We need two more pages to show details for sepaker and session. Simply add two new *** by right-clicking the Xamarin.Forms project, clicking on <kbd>Add</kbd><kbd>New Item...</kbd> and selecting the according template. Let's name them `SpeakerDetailsPage` and `SessionDetailsPage`.
+
+To keep the UI simple, we can just arrange a bunch of `Label`s vertically below each other in a `StackLayout` for the `SessionDetailsPage.xaml`.
+
+```xml
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Conference.Forms.SessionDetailsPage"
+    Title="Session">
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label Text="Name" FontAttributes="Bold" />
+            <Label Text="{Binding CurrentSession.Name}" />
+            <Label Text="Room" FontAttributes="Bold" />
+            <Label Text="{Binding CurrentSession.Room}" />
+            <Label Text="Start" FontAttributes="Bold" />
+            <Label Text="{Binding CurrentSession.StartTime}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+```
+
+Let's do the same for the `SpeakerDetailsPage.xaml` and add an additional picture for the speaker to it.
+
+```xml
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Conference.Forms.SpeakerDetailsPage"
+    Title="Session">
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Image Source="{Binding CurrentSpeaker.ImagePath}" />
+            <Label Text="Name" FontAttributes="Bold" />
+            <Label Text="{Binding CurrentSpeaker.Name}" />
+            <Label Text="Title" FontAttributes="Bold" />
+            <Label Text="{Binding CurrentSpeaker.Title}" />
+            <Label Text="Bio" FontAttributes="Bold" />
+            <Label Text="{Binding CurrentSpeaker.Bio}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+```
+
+### 6.2 Initialize the ViewModel
+As you can see, we created views, that bind against the `CurrentSpeaker` and `CurrentSession` properties of their regarding view models. So let's kick them off. These procedure is the same for both pages, so we need to do it in both.
+
+First we create a ViewModel property in the code behind file, instanciate it and set is as the pages Binding Context.
+
+```csharp
+public partial class SessionDetailsPage : ContentPage
+{
+    private SessionDetailsViewModel viewModel;
+
+    public SessionDetailsPage()
+    {
+        InitializeComponent();
+
+        // Initialize the ViewModel
+        viewModel = new SessionDetailsViewModel();
+
+        // Set ViewModel as Binding Context
+        BindingContext = viewModel;
+    }
+}
+```
+
+When the `SessionDetailsViewModel` gets instanciated, its `CurrentSession` property will be `null` by default. So it needs to get set to the currently selected session. As the `SessionDetailsPage` does not know this session yet, we have to provide this information, whenever navigating to it.
+
+For this, add a `Session` property to the constuctor of the page.
+
+```csharp
+public SessionDetailsPage(Session session)
+{
+    // ...
+
+    viewModel = new SessionDetailsViewModel();
+    viewModel.CurrentSession = session;
+
+    // ...
+}
+```
+
+Now we have to provide a session to the page when navigating to it. This session will be set as the `SessionDetailsViewModel`'s `CurrentSession` property.
+
+### 6.3 Add Navigation
+Nice, now we just have to navigate to the according details page, whenever a speaker or session got selected. For this, we should return to the `MainPage.xaml` and add an Event Handler to the `ItemSelected` event of the two `ListView`s.
+
+```xml
+<!-- Sessions Tab -->
+<ContentPage Title="Sessions">
+    <ListView
+        ItemsSource="{Binding Sessions}"
+        ItemSelected="Session_ItemSelected">
+        <!-- ... -->
+    </ListView>
+</ContentPage>
+
+<!-- Speakers Tab -->
+<ContentPage Title="Speakers">
+    <ListView 
+        ItemsSource="{Binding Speakers}" 
+        ItemSelected="Speaker_ItemSelected">
+        <!-- ... -->
+    </ListView>
+</ContentPage>
+```
+
+Inside the `MainPage.xaml.cs` code behind file, we now have to implement these Event Handlers sothat they can be called whenever the user selected an item.
+
+```csharp
+private void Session_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+{
+
+}
+
+private void Speaker_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+{
+
+}
+```
+
+Inside, we have to find out, which item got selected and cast it to its correct type.
+
+```csharp
+private void Session_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+{
+    // Get selected session
+    var selectedSession = e.SelectedItem as Session;
+    if (selectedSession != null)
+    {
+        // Navigate to details page and provide selected session
+        // ...
+    }
+}
+```
+
+Navigation in Xamarin.Forms is easy, as the framework already provides a `Navigation` class to us that contains implemetations for the navigation on each platform. We can use its `PushAsync(Page)` method to navigate to another page. This page has to be instanciated of course with ... correct, the selected item.
+
+```csharp
+// Navigate to details page and provide selected session
+Navigation.PushAsync(new SessionDetailsPage(selectedSession));
+```
+
+After we handled the `ItemSelected` event, we should unselect the current item sothat out `Session_ItemSelected` handler should now look like this:
+
+```csharp
+private void Session_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+{
+    // Get selected session
+    var selectedSession = e.SelectedItem as Session;
+    if (selectedSession != null)
+    {
+        // Navigate to details page and provide selected session
+        Navigation.PushAsync(new SessionDetailsPage(selectedSession));
+    }
+
+    // Unselect item
+    (sender as ListView).SelectedItem = null;
+}
+```
+
+Repeat this for the `Speaker_ItemSelected` handler as well and we are done. 
+
+Congratulations, you have successfully created your first working Xamarin.Forms application!
 
 ## 7. Wrapping up what we have learned
-- Explain Differnce between differnt PCLs (what are they for? With whom will they be shared?)
-- structure is really important. Maybe add Solution Folders (Screenshot)
+Phew, what a ride! Let's take a breath and review what we have learned in this module.
+
+As you might have noticed, structure is very important to me. I just want to prepare you for the future and we created many things here that can be shared across different projects. So let's take a look at what we build.
+
+- Conference.Core
+    - Contains Models and Serverices that are abosolutely independent from its usage scenario
+    - Can be shared with **every other** .NET project in our ecosystem. Server, Bot, Microservice or whatever
+    - Changes affect every layer of our solution
+- Conference.Frontend
+    - Contains Frontend solution focused parts like ViewModels and Services
+    - Can be shared with **every other** .NET frontend solution, not only Xamarin
+    - Defines Interfaces that frontends have to implement
+- Conference.Forms
+    - Contains logic that can be shared with every platoform supported by Xamarin.Forms (iOS, Android, Windows, ...)
+    - Defines unified layouts and logic that gets rendered on each platform independently
+
+As structure is so important, it might be a good idea to add Solution Folders. These can help you structuring multiple projects. Take a look at the [final code](/Code) that you can find in this repository.

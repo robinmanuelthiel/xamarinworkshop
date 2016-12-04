@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Conference.Core;
 
 namespace Conference.Forms
 {
@@ -29,5 +30,33 @@ namespace Conference.Forms
             base.OnAppearing();
             await viewModel.RefreshAsync();
         }
+
+		private void Session_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+		{
+			// Get selected session
+			var selectedSession = e.SelectedItem as Session;
+			if (selectedSession != null)
+			{
+				// Navigate to details page and provide selected session
+				Navigation.PushAsync(new SessionDetailsPage(selectedSession));
+			}
+
+			// Unselect item
+			(sender as ListView).SelectedItem = null;
+		}
+
+		private void Speaker_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
+		{
+			// Get selected session
+			var selectedSpeaker = e.SelectedItem as Speaker;
+			if (selectedSpeaker != null)
+			{
+				// Navigate to details page and provide selected session
+				Navigation.PushAsync(new SpeakerDetailsPage(selectedSpeaker));
+			}
+
+			// Unselect item
+			(sender as ListView).SelectedItem = null;
+		}
     }
 }

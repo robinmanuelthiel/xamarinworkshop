@@ -7,7 +7,7 @@
 
     <!-- Sessions Tab -->
     <ContentPage Title="Sessions">
-        <ListView ItemsSource="{Binding Sessions}">
+        <ListView ItemsSource="{Binding Sessions}" ItemSelected="Session_ItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell
@@ -20,7 +20,7 @@
 
     <!-- Speakers Tab -->
     <ContentPage Title="Speakers">
-        <ListView ItemsSource="{Binding Speakers}">
+        <ListView ItemsSource="{Binding Speakers}" ItemSelected="Speaker_ItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ImageCell
