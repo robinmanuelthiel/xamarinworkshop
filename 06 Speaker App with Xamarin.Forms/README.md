@@ -646,4 +646,4 @@ As you might have noticed, structure is very important to me. I just want to pre
     - Contains logic that can be shared with every platoform supported by Xamarin.Forms (iOS, Android, Windows, ...)
     - Defines unified layouts and logic that gets rendered on each platform independently
 
-As structure is so important, it might be a good idea to add Solution Folders. These can help you structuring multiple projects. Take a look at the [final code](/Code) that you can find in this repository.
+As structure is so important, it might be a good idea to add Solution Folders. These can help you structuring multiple projects. Take a look at the [final code](./Code) that you can find in this repository.
