@@ -1,0 +1,6 @@
+SessionId,Name,Room,StartTime,SpeakerIdFk
+1,Xamarin for Beginners,442,2016-12-08T10:00:00,1
+2,Shared Layouts with Xamarin.Forms,435,2016-12-08T10:00:00,2
+3,Clean MVVM architectures,310,2016-12-08T12:00:00,1
+4,Test you Mobile Application with Xamarin Test Cloud,112,2016-12-08T13:00:00,3
+5,One code to rule them all,310,2016-12-08T14:00:00,2
