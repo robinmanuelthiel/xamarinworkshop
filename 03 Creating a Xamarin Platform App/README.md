@@ -19,16 +19,35 @@ To create a new Xamarin app, simply click on <kbd>File</kbd> <kbd>New</kbd> <kbd
 As Visual Studio is creating multiple projects at once now, this process might take some seconds. When finished, you will the a new *Solution* with four different projects. One for each platform and one for the shared code. We will walk through all of these in this module. 
 
 ## The Android project
+When creating a cross-platform application, Xamarin creates a YourApp.**Droid** project for you, which is based on Xamarin.Android.
 
 ![Android project in a Xamarin Solution Screenshot](../Misc/vsexplorexamarinandroid.png)
 
+If you are familiar with Android Development in Android Studio and Java, the content will look very firm for you. You will find a `MainActivity.cs` file, which is the first entry point of your Android app and has the same lifecycle methods and functions that any Java app, but just in C#.
+
+Xamarin maps the existing Java Android API 1:1 to C# and all the methods and procedures are exactly the same.
+
+> **Important:** That means that you can reuse nearly all of your existing Android skills. You don't have to learn anything new about the platform it is just the language that changes. Even if you run into a problem and find a Java solution for it on the web, you can simply translate it into C# and it will work for you!
+
+You will also find a layout file `Main.axml` where every Android developer would expect it: The ***Resources*** folder. Xamarin does not touch these layout files, sothat you can reuse 100% of your existing Android Layout code in the Xamarin project.
+
 ## The iOS project
+The iOS project that gets created is based on Xamarin.iOS and will be called YourApp.**iOS**. It works very similar to the Android project.
 
 ![Android project in a Xamarin Solution Screenshot](../Misc/vsexplorexamarinios.png)
 
+You will find every class you would expect when creating a Swift or Objective-C iOS project in Xcode, but mapped to C#. So you will find an `AppDelegate.cs` file as an iOS developer would expect it with all the lifecycle methods you might be firm with.
+
+Again, the layout file is not getting touched by Xamarin. It still uses Storyboards and .xib files for layouting and does not have any Xamarin or C# specifics in there.
+
 ## The Windows project
+Actually, the Windows project has nothing to do with Xamarin and is nothing special. It is a UWP application without any modifications and plain as every Windows developer knows it.
 
 ![Android project in a Xamarin Solution Screenshot](../Misc/vsexplorexamarinwindows.png)
+
+The fact that is already runs on .NET and uses C# in most cases lets it also benefit from the code-sharing. It does not have to get ported to C# because **it already is** there.
+
+So from a framework perspective, iOS and Android has been ported to the same technology stack that Windows apps already were on sothat they can work together seamlessly.
 
 ## The Portable project
 The most exciting project might be the Portable Class Library that Xamarin created. All platform projects are referencing this library. This implies that everything that gets created in here, is available for every platform.
@@ -57,4 +76,4 @@ Now you can configure the Run Configurations for your app and select **Debug** o
 
 When testing you app on iOS, I have to make sure that my machine is connected to a **Mac Build Host**. Then I can select **iPhone** or **iPhone Simulator** as Architecture Model and run the app on a Simulator or physical device.
 
-To start the application, simply hit the **Run button** with the green play symbol.
+To start the application, simply hit the **Run button** with the green play symbol. Now the compilation and deployment starts and your application will be launched.
