@@ -6,7 +6,7 @@ Welcome, it is good to see you here being interested in learning how to write na
 ## Prerequisites
 **Mandatory**
 - Windows or Mac machine
-- [Visual Studio for Windows]() or [Visual Studio for Mac]()
+- [Visual Studio for Windows](https://www.visualstudio.com/downloads/) or Xamarin Studio / Visual Studio for Mac Preview (Comes with Xamarin)
 - [Xamarin](https://www.xamarin.com/download) (can be installed with Visual Studio)
 - At least one (better multiple SDKs)
     - [Android SDK](https://developer.android.com/studio/index.html#downloads) (should get installed automatically with Xamarin)
