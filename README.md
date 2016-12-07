@@ -1,4 +1,8 @@
+![Header](Misc/header.jpg)
+
 # Xamarin Workshop
+Hi and welcome to this Xamarin Workshop! 🎉 It is good to see you here being interested in learning how to write native mobile applications in C#. Take some time to read the Prerequisites, prepare your machine and start with the first lesson, when you are ready.
+
 ## Prerequisites
 **Mandatory**
 - Windows or Mac machine
