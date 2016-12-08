@@ -345,7 +345,7 @@ Now we can download the mocked Session and Speaker lists form the GitHub servers
 ```csharp
 public async Task<List<Session>> GetSessionsAsync()
 {
-    var json = await httpClient.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/04%20Speaker%20App%20with%20Xamarin.Forms/Mock/mocksessions.json");
+    var json = await httpService.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/04%20Speaker%20App%20with%20Xamarin.Forms/Mock/mocksessions.json");
     var sessions = JsonConvert.DeserializeObject<List<Session>>(json);
     return sessions;
 }
@@ -475,7 +475,7 @@ Everything can be instanciated correctly now and we can run our application and 
 Let's quickly create two new pages for the speaker and session details. The procedure is the same as we already did with the `MainPage`: Create the layout, bind it to the ViewModel and add it as Binding Context.
 
 ### 6.1 Create the views
-We need two more pages to show details for sepaker and session. Simply add two new *** by right-clicking the Xamarin.Forms project, clicking on <kbd>Add</kbd><kbd>New Item...</kbd> and selecting the according template. Let's name them `SpeakerDetailsPage` and `SessionDetailsPage`.
+We need two more pages to show details for sepaker and session. Add them by right-clicking the Xamarin.Forms project, clicking on <kbd>Add</kbd> <kbd>New Item...</kbd> and selecting the ***Forms Xaml Page*** template. Let's name them `SpeakerDetailsPage` and `SessionDetailsPage`.
 
 To keep the UI simple, we can just arrange a bunch of `Label`s vertically below each other in a `StackLayout` for the `SessionDetailsPage.xaml`.
 
