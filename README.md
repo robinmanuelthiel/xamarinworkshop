@@ -1,14 +1,15 @@
 ![Header](Misc/header.jpg)
 
 # Xamarin Workshop 📱
-Welcome, it is good to see you here being interested in learning how to write native mobile applications in C#. Take some time to read the Prerequisites, prepare your machine and start with the first lesson, when you are ready.
+Welcome, it is good to see you here being interested in learning how to write native mobile applications for iOS, Android and Windows in C#. Take some time to read the prerequisites, prepare your machine and start with the first lesson, when you are ready.
 
 ## Prerequisites
+Please read the [Minimum System Requirements](https://developer.xamarin.com/guides/cross-platform/getting_started/requirements/) to check if your system is ready. If you need help in preparing your development environment check the [Setting up module ](/02%20Setting%20up).
+
 **Mandatory**
-- Windows or Mac machine
-- [Visual Studio for Windows](https://www.visualstudio.com/downloads/) or Xamarin Studio / Visual Studio for Mac Preview (Comes with Xamarin)
-- [Xamarin](https://www.xamarin.com/download) (can be installed with Visual Studio)
-- At least one (better multiple SDKs)
+- A development machine (Windows 10, OS X El Capitan or macOS Sierra)
+- IDE ([Visual Studio for Windows](https://www.visualstudio.com/downloads/) or [Xamarin Studio for Mac](https://www.xamarin.com/download))
+- Native Platfrom SDKs
     - [Android SDK](https://developer.android.com/studio/index.html#downloads) (should get installed automatically with Xamarin)
     - [Universal Windows Platform SDK](https://developer.microsoft.com/windows/downloads/windows-10-sdk) (can be installed with Visual Studio)
     - [iOS SDK (comes with Xcode)](https://itunes.apple.com/de/app/xcode/id497799835?mt=12) on Mac
@@ -16,7 +17,7 @@ Welcome, it is good to see you here being interested in learning how to write na
 - Internet connection
 
 **Recommended**
-- A Mac machine anywhere in the Network as iOS Build Host with Xamarin and Xcode installed
+- A Mac machine anywhere in your network as iOS Build Host with Xamarin and Xcode installed
 - Any Android emulator like the [Android Emulator for Visual Studio](https://www.visualstudio.com/vs/msft-android-emulator/) or the one that comes with [Android Studio](https://developer.android.com/studio/index.html).
 
 ## Contribution
