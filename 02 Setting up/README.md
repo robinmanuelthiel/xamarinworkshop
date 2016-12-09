@@ -39,6 +39,29 @@ On a Mac, Xamarin needs to be installed differently. [Download the installer](ht
 ### Android SDK
 Both ways of installing Xamarin for Mac or Windows should install the Android SDK automatically. If anything goes wrong, you can also [download it from the Google Developer portal](https://developer.android.com/studio/index.html).
 
+You should also check if all the necessary Android components are installed or if any updates are available. We can check this inside the ***Android SDK Manager***. Open it in Visual Studio or Xamarin Studio at <kbd>Tools</kbd> <kbd>Android</kbd> <kbd>Android SDK Manager...</kbd>.
+
+![Modify Visual Studio features afterwards Screenshot](../Misc/androidsdkmanager.png)
+
+Make sure, the following components are installed and up to date:
+
+- Tools
+  - Android SDK Tools
+  - Android SDK Platform-tools
+  - Android SDK Build-tools (23.0.1)
+  - Android SDK Build-tools (23.0.1)
+- Android 6.0 (API 23)
+  - SDK Platform (optional but recommended)
+- Android 5.0.1 (API 21)
+  - SDK Platform (optional but recommended)
+- Android 4.4.2 (API 19)
+  - SDK Platform (optional but recommended)
+- Android 4.0.3 (API 15)
+  - SDK Platform
+- Extras
+  - Android Support Repository
+  - Google Play Services (optional)
+
 ### Android Emulator
 To test your Android apps, you might need an emulator. You can use any emulator you like, for example 
   - [Android Emulator for Visual Studio](https://www.visualstudio.com/vs/msft-android-emulator/) on Windows
