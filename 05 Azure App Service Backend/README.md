@@ -60,10 +60,11 @@ In most cases, it makes sense to create a fresh new database for your App Servic
 Now you created a new SQL Database to store your data in. Regarding on your previous work on Azure you might also have created a database server. Keep in mind, that you can run multiple databases on one server later.
 
 > **Hint:** The following is a little bit confusing in Azure currently: You have to wait some time, until Azure spins up the database and creates the connection string. Until this, it will still claim a data connection. You can click in the ***Notifications icon*** at the top bar to follow the process of creating. Just wait until it's done.
-![Configure Easy Tables Screenshot](../Misc/azuremobileappcreatingdbconnection.jpg)
+>
+>![Configure Easy Tables Screenshot](../Misc/azuremobileappcreatingdbconnection.png)
 
 ### 3.2 Initialize the Easy Tables
-Once the connection has been established, you can start spinning up the Easy Tables. For this simply hit the ***Initialize App*** button and let Azure do the rest.
+Once the connection has been established, you can start spinning up the Easy Tables. For this simply hit the <kbd>Initialize App</kbd> button and let Azure do the rest.
 
 ![Initialize Easy Tables Screenshot](../Misc/azuremobileappiniteasytablesfinally.jpg)
 
