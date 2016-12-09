@@ -4,21 +4,19 @@
 Welcome, it is good to see you here being interested in learning how to write native mobile applications for iOS, Android and Windows in C#. Take some time to read the prerequisites, prepare your machine and start with the first lesson, when you are ready.
 
 ## Prerequisites
-Please read the [Minimum System Requirements](https://developer.xamarin.com/guides/cross-platform/getting_started/requirements/) to check if your system is ready. If you need help in preparing your development environment check the [Setting up module ](/02%20Setting%20up).
+Please read the [Minimum System Requirements](https://developer.xamarin.com/guides/cross-platform/getting_started/requirements/) to check if your system is ready. If you need help in preparing your development environment check the [Setting up module](/02%20Setting%20up).
+
+> **Hint:** Installation and Setup of your Xamarin development environment can be a little bit tricky as so many different components have to intertwine. This list just describes what you need. You don't have to install it now, as there is an own  [Setting up module](/02%20Setting%20up).
 
 **Mandatory**
-- A development machine (Windows 10, OS X El Capitan or macOS Sierra)
+- Development machine (Windows 10, OS X El Capitan or macOS Sierra)
 - IDE ([Visual Studio for Windows](https://www.visualstudio.com/downloads/) or [Xamarin Studio for Mac](https://www.xamarin.com/download))
-- Native Platfrom SDKs
-    - [Android SDK](https://developer.android.com/studio/index.html#downloads) (should get installed automatically with Xamarin)
-    - [Universal Windows Platform SDK](https://developer.microsoft.com/windows/downloads/windows-10-sdk) (can be installed with Visual Studio)
-    - [iOS SDK (comes with Xcode)](https://itunes.apple.com/de/app/xcode/id497799835?mt=12) on Mac
 - [Microsoft Azure subscription](https://azure.microsoft.com/en-us/free/) (free trial)
 - Internet connection
 
 **Recommended**
-- A Mac machine anywhere in your network as iOS Build Host with Xamarin and Xcode installed
-- Any Android emulator like the [Android Emulator for Visual Studio](https://www.visualstudio.com/vs/msft-android-emulator/) or the one that comes with [Android Studio](https://developer.android.com/studio/index.html).
+- Any Android emulator
+- A Mac machine anywhere in your network as iOS Build Host
 
 ## Contribution
 I don't like creating workshops all on my own and am far from being perfect. So this workshop is all about contribution!
