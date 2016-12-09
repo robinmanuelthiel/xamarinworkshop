@@ -22,6 +22,6 @@ Welcome, it is good to see you here being interested in learning how to write na
 ## Contribution
 I don't like creating workshops all on my own and am far from being perfect. So this workshop is all about contribution!
 
-All information that I try to provide here are state of the art as I write this workshop but technology change over time. Although I try to keep this workshop up-to-date, there always might be something outdated. In addition, this workshop is based on my personal knowledge, which means that is not perfect. If you know something better, have a good idea or want to correct something, please feel free to create a pull request. This workshop is getting better with every single contribution!
+All information that I try to provide here are state of the art as I write this workshop but technology change over time. Although I try to keep this workshop up-to-date, there always might be something outdated. In addition, this workshop is based on my personal knowledge, which means that it's not perfect. If you know something better, have a good idea or want to correct something, please feel free to create a pull request. This workshop is getting better with every single contribution!
 
 Thank you ❤️
