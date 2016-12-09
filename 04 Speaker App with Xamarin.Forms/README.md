@@ -505,7 +505,7 @@ Let's do the same for the `SpeakerDetailsPage.xaml` and add an additional pictur
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Conference.Forms.SpeakerDetailsPage"
-    Title="Session">
+    Title="Speaker">
     <ContentPage.Content>
         <StackLayout Padding="10">
             <Image Source="{Binding CurrentSpeaker.ImagePath}" />
