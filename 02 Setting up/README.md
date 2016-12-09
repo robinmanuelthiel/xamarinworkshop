@@ -11,7 +11,6 @@ When working on Windows, [Visual Studio](https://www.visualstudio.com/downloads/
 
 ![Add Xamarin to Visual Studio installation Screenshot](../Misc/vsinstallxamarinfeatures.png)
 
-
 You can select Xamarin from the ***Features*** list in the Visual Studio installer. Make sure, that the following features get installed:
 - Windows and Web Development
   - Universal Windows App Development Tools
@@ -29,7 +28,7 @@ You can select Xamarin from the ***Features*** list in the Visual Studio install
     - Android SDK Setup (API Level 23)
     - Java SE Development Kit
 
-> **Hint:** If you already have Visual Studio installed, you can modify its features via the ***Programs and Features*** tool at the ***Control Panel***. Locate *Microsoft Visual Studio* there and click the <kbd>Modify</kbd> button to rerun the installer.
+> **Hint:** If you already have Visual Studio installed, you can modify its features via the ***Programs and Features*** tool at the ***Control Panel***. Locate *Microsoft Visual Studio* there and click the <kbd>Change</kbd> button to rerun the installer.
 > 
 > ![Modify Visual Studio features afterwards Screenshot](../Misc/winchangevsfeatures.png)
 
@@ -62,7 +61,7 @@ Here you can also select the *Remote iOS Simulator* on Windows. If you check thi
 
 ## Prepare the Universal Windows development
 ### UWP SDK and Emulators
-The Windows 10 (UWP) SDK has also be installed with Visual Studio. If you have not selected it while installing Visual Studio, follow the same process as above. Open the ***Programs and Features*** window, select ***Visual Studio*** and click <kbd>Modify</kbd> to add new features.
+The Windows 10 (UWP) SDK has also be installed with Visual Studio. If you have not selected it while installing Visual Studio, follow the same process as above. Open the ***Programs and Features*** window, select ***Visual Studio*** and click <kbd>Change</kbd> to add new features.
 
 Here you can select the ***Universal Windows App Development Tools** you want to install as well as Emulators for mobile. Remember, that you don't mandatory need Windows 10 Mobile Emulators, as you can run the same app package also in Windows 10 itself.
 
