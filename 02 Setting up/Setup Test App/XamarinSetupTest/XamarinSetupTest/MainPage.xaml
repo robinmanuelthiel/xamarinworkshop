@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="XamarinSetupTest.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:XamarinSetupTest"
+    Title="Xamarin Test App">
+
+    <StackLayout
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+        <Label
+            FontAttributes="Bold"
+            HorizontalTextAlignment="Center"
+            Text="Welcome to Xamarin" />
+        <Label HorizontalTextAlignment="Center">
+            <Label.Text>
+                <OnPlatform
+                    x:TypeArguments="x:String"
+                    Android="Your Android settings work!"
+                    WinPhone="Your Windows settings work!"
+                    iOS="Your iOS settings work!" />
+            </Label.Text>
+        </Label>
+        <Button
+            Margin="10"
+            Clicked="Button_Click"
+            Text="Really?" />
+    </StackLayout>
+</ContentPage>
