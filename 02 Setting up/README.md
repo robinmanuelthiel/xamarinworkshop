@@ -9,8 +9,10 @@ Installing Xamarin should be easy but the process varies on the different platfo
 ### On Windows
 When working on Windows, [Visual Studio](https://www.visualstudio.com/downloads/) will be the right IDE for you. You can check if you have a license for the paid versions or even go with the free Community Edition. Both will work for you.
 
-You can select Xamarin from the ***Features*** list in the Visual Studio installer. Make sure, that the following features get installed:
+![Add Xamarin to Visual Studio installation Screenshot](../Misc/vsinstallxamarinfeatures.png)
 
+
+You can select Xamarin from the ***Features*** list in the Visual Studio installer. Make sure, that the following features get installed:
 - Windows and Web Development
   - Universal Windows App Development Tools
     - Tools and Windows 10 SDK
@@ -27,11 +29,9 @@ You can select Xamarin from the ***Features*** list in the Visual Studio install
     - Android SDK Setup (API Level 23)
     - Java SE Development Kit
 
-![Add Xamarin to Visual Studio installation Screenshot](../Misc/vsinstallxamarinfeatures.png)
-
-If you already have Visual Studio installed, you can modify its features via the ***Programs and Features*** tool at the ***Control Panel***. Locate *Microsoft Visual Studio* there and click the <kbd>Modify</kbd> button to rerun the installer.
-
-![Modify Visual Studio features afterwards Screenshot](../Misc/winchangevsfeatures.png)
+> **Hint:** If you already have Visual Studio installed, you can modify its features via the ***Programs and Features*** tool at the ***Control Panel***. Locate *Microsoft Visual Studio* there and click the <kbd>Modify</kbd> button to rerun the installer.
+> 
+> ![Modify Visual Studio features afterwards Screenshot](../Misc/winchangevsfeatures.png)
 
 ### On Mac
 On a Mac, Xamarin needs to be installed differently. [Download the installer](https://www.xamarin.com/download) and run it. It should install all Xamarin components you need, including the Android SDK and Xamarin Studio, which will be your IDE on OSX/macOS.
@@ -67,7 +67,7 @@ The Windows 10 (UWP) SDK has also be installed with Visual Studio. If you have n
 Here you can select the ***Universal Windows App Development Tools** you want to install as well as Emulators for mobile. Remember, that you don't mandatory need Windows 10 Mobile Emulators, as you can run the same app package also in Windows 10 itself.
 
 ## Test your configuration
-To test you development environment, you can download the simple blank test app that is [attached to this module](/Setup%20%Test%20App) and try to run it on all platforms you want to target. If you run in any errors, head over to the [Troubleshooting](../Troubleshooting) section and check if your problem can be resolved easily.
+To test you development environment, you can download the simple blank test app that is [attached to this module](/Setup%20Test%20App) and try to run it on all platforms you want to target. If you run in any errors, head over to the [Troubleshooting](../Troubleshooting) section and check if your problem can be resolved easily.
 
 1. Open the Solution by double-clicking on the `XamarinSetupTest.sln` file and wait until your IDE spins up.
 1. Right-click on the Solution name at the top of the folder structure and select <kbd>Restore NuGet Packages</kbd> to download the packages
