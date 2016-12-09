@@ -72,7 +72,7 @@ To run the app either in an Emulator, Simulator or physical device, you need to 
 
 Now you can configure the Run Configurations for your app and select **Debug** or **Release** mode, **Architecture Model** and **Target Device** at the topbar of Visual Studio.
 
-![Android project in a Xamarin Solution Screenshot](../Misc/vsrunxamarinandroidapp.png)
+![Android project in a Xamarin Solution Screenshot](../Misc/vsdebugxamarinandroidapp.png)
 
 When testing you app on iOS, I have to make sure that my machine is connected to a **Mac Build Host**. Then I can select **iPhone** or **iPhone Simulator** as Architecture Model and run the app on a Simulator or physical device.
 

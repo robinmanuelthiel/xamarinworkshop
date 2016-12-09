@@ -16,7 +16,7 @@ As the SDK use platform specific components like the SQLite database that is use
 
 In Visual Studio for Windows, I can manage packages solution wide by right-clicking the solution inside the Solution Explorer, selecting <kbd>Manage NuGet Packages for Solution...</kbd>.
 
-![Import CSV files into Easy Tables Screenshot](../Misc/vsaddazuremobilenuget.png)
+![Import CSV files into Easy Tables Screenshot](../Misc/vsaddazuremobilenugetpack.png)
 
 ### 1.2 Initialize the Mobile Service
 The Azure Mobile Service SDK hast to intialized on each platform thet uses it seperately. We have already added the NuGet package, so we just have to kick it off on each platform.

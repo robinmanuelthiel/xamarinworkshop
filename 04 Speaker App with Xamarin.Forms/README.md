@@ -35,17 +35,19 @@ public App()
 ```
 
 ## 2. Create the models
-Now it's time to give thought to the models that we want to use. Actually, our conference should deal with two types of objects: **Speakers** and **Sessions**. So let's create a model class for each. Before, let's take a second and think about where to place them. In a cross-platform scenario and in general in every cleanly seperated code project we should also be aware of what's the best project to put a new function, class or service in!
+Now it's time to give thought to the models that we want to use. Actually, our conference should deal with two types of objects: **Speakers** and **Sessions**. So let's create a model class for each. Before, let's take a second and think about where to place them. In a cross-platform scenario and in general in every cleanly separated code project we should also be aware of what's the best project to put a new function, class or service in!
 
 As the models we want to create do not have any platform specifics and are not used in a specific scenario only, we should definitely put them into a new project that holds everything we want to span across multiple usage scenarios. For this, let's create a new ***Portable Class Library*** by right-clicking on the Solution in Visual Studio an selecting <kbd>Add</kbd> <kbd>New Project...</kbd>. In the ***Visual C#*** section, we will find the ***Class Library (Portable)*** project template. Let's call it ***Conference.Core*** and add it to our solution.
 
 ![Add Portable Class Library in Visual Studio Screenshot](../Misc/vsaddpcl.png)
 
-> **Hint:**  At this point, we should take a short digression on Portable Class Libaries. In .NET, these are projects that combine a subset of APIs and Types and offer the developer to use these across multiple projects. Inside the settings of Portable Class Libaries, we can choose which platforms, we want to target and the Library will offer all of the overlapping APIs. Unfortunately, this drives fragmentation and whenever you want to increase the target platform range of the library, some APIs might get lost and you have to rethink your code. That is why the .NET Foundation introduced [.NET Standard](https://blogs.msdn.microsoft.com/dotnet/2016/09/26/introducing-net-standard/), which is a pre-defined set of APIs that every .NET platform has to implement. So whenever we choose .NET Standard as target, we can combine the library with any other .NET platform that supports this standard. And (surprise): Xamarin does!
+At this point, we should take a short digression on Portable Class Libaries (PCL). In .NET, these are projects that combine a subset of APIs and Types and offer the developer to use these across multiple projects. Inside the settings of Portable Class Libaries, we can choose which platforms, we want to target and the library will offer all of the overlapping APIs.
 
-To change the target platforms of our Portable Class Library, just right-click on it, choose <kbd>Properties</kbd> and click the ***Target .NET Platform Standard*** link, that you can find in the first ***Library*** tab, to make out Library super compatible and future proof.
+> **Hint:** In case you are more advanced and wondering: Yes, Xamarin does support [.NET Standard](https://blogs.msdn.microsoft.com/dotnet/2016/09/26/introducing-net-standard/) and you can also switch the PCLs to it, if you like. Currently this sometimes might cause some problems, which is why we avoid it in this workshop.
 
-![Change PCL target to .NET Standard in Visual Studio Screenshot](../Misc/vschangetonetstandard.png)
+We can choose a wide rang of APIs for our PCLs to make it compatible with as many other .NET platforms as possible.
+
+![Set PCL target in Visual Studio Screenshot](../Misc/vspclprofile.png)
 
 Now we can finally create the classes for the **Speakers** and **Sessions** models.
 
@@ -71,7 +73,7 @@ public class Session
 }
 ```
 
-The last thing, we need to do is connecting the Portable Class Library with our Xamarin.Forms project. For this, just right-click the ***References*** folder and select <kbd>Add Reference...</kbd>. A new Windows opens that allows to manage project references. In the ***projects*** tab, we find the recently created ***Conference.Core*** project and can add it to the Xamarin.Forms project by simply checking the box next to it.
+The last thing, we need to do is connecting the Portable Class Library with our Xamarin.Forms project. For this, just right-click the ***References*** folder and select <kbd>Add Reference...</kbd>. A new Windows opens that allows to manage project references. In the ***Projects*** tab, we find the recently created ***Conference.Core*** project and can add it to the Xamarin.Forms project by simply checking the box next to it.
 
 ![Add References in Visual Studio Screenshot](../Misc/vsaddreference.png)
 
@@ -80,7 +82,7 @@ It's a common approach to use the Mode-View-ViewModel pattern (short: MVVM) in X
 
 > **Hint:** One of MVVM's main characteristics is the *ViewModel*, which provides logic for the *View* without knowing the *View* itself. It basically is, what the *Contoller* does in other design patterns but can be reused in multiple Frontend projects, because it does not know anything about the View it serfes and only provides *Properties* and *Commands* (methods) that can be bound to the *View* later. This connection is called *Binding*. More information about MVVM can be found at the [MSDN library](https://msdn.microsoft.com/en-us/library/hh848246.aspx) or [Codeproject](http://www.codeproject.com/Articles/100175/Model-View-ViewModel-MVVM-Explained).
 
-As we can use the ViewModel not only for our Xamarin.Forms project but also for other Frontend solutions that are based on MVVM later, it's good practice, to seperate the ViewModel from the Xamarin.Forms project. Please be aware that it does **not** belong to our *Conference.Portable* project, as this should only contain those parts of our application that could be shared with *any other* layer (event with the backend). So let's keep it clean and create another ***Portable Class Library*** just as we did in the previous section and call it "*Conference.Frontend*". Dont's forget, to switch it to *.NET Standard* before referencing it to the *Conference.Forms* project.
+As we can use the ViewModel not only for our Xamarin.Forms project but also for other Frontend solutions that are based on MVVM later, it's good practice, to seperate the ViewModel from the Xamarin.Forms project. Please be aware that it does **not** belong to our *Conference.Portable* project, as this should only contain those parts of our application that could be shared with *any other* layer (event with the backend). So let's keep it clean and create another ***Portable Class Library*** just as we did in the previous section and call it "*Conference.Frontend*".
 
 ### 3.1 Create a ViewModel that implements INotifyPropertyChanged
 Now we can create our ViewModel in the new project. Add a new class and name it `MainViewModel` as it should provide the properties and commands for our `MainPage`. The first thing we need to to, to make our new class to a ViewModel is implementing `INotifyPropertyChanged`. This is important for data binding in MVVM Frameworks and is an interface that, when implemented, lets our view know about changes to the model. Just copy the followning lines to your class to have a `OnPropertyChanged()` method, that will notify the View about changes, whenever it gets called.
