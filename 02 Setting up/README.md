@@ -1,7 +1,7 @@
 # Setting up
 Actually, the setup of a working Xamarin environment can get a little bit tricky and time consuming as so many different SDKs and technologies from different companies have to intertwine.
 
-You can absolutely both, **Windows 10 or OSX/macOS** to develop Xamarin applications. Both is fully supported and you can choose which fits you personal preferences most. As Visual Studio on Windows is the richest IDE, we will use it for this workshop, but you can do everything on Mac aswell.
+You can absolutely both, **Windows 10 or OSX/macOS** to develop Xamarin applications. Both is fully supported and you can choose which fits your personal preferences most. As Visual Studio on Windows is the richest IDE, we will use it for this workshop, but you can do everything on Mac as well.
 
 ## Install Xamarin
 Installing Xamarin should be easy but the process varies on the different platforms. We will go through both processes together.
@@ -73,9 +73,9 @@ To test your Android apps, you might need an emulator. You can use any emulator 
 To work with iOS, you need a Mac (at least anywhere in your network) with [Xcode](https://itunes.apple.com/de/app/xcode/id497799835?mt=12) installed. By default, this will install the latest iOS SDK and several simulators. You have to start Xcode at least once shortly, to initialize everything.
 
 ### Mac Build Host for Windows
-When working on a Windows maching and using the Mac only as a Remote Build Host, you have to connect it with Visual Studio.
+In case you are working on a Windows machine and still want to develop iOS applications, you will need a Mac as Remote Building host anywhere in your local network and connect it to Visual Studio.
 
-Click on <kbd>Tools</kbd> <kbd>Options...</kbd>, scroll down to the ***Xamarin*** section and click on ***iOS Settings*** to navigate to the configuration window. Here you can click on <kbd>Find Xamarin Mac Agent</kbd> to conenct you Mac. Follow the steps from the wizard to establish the connection.
+First, make sure, that the Mac has Xamarin (in the exact same version as on Windows) and Xcode installed. Then click on <kbd>Tools</kbd> <kbd>Options...</kbd>, scroll down to the ***Xamarin*** section and click on ***iOS Settings*** to navigate to the configuration window. Here you can click on <kbd>Find Xamarin Mac Agent</kbd> to conenct you Mac. Follow the steps from the wizard to establish the connection.
 
 ![Connect Visual Studio with Mac Build Host Screenshot](../Misc/vsxamariniossettings.png)
 
@@ -96,19 +96,19 @@ To test you development environment, you can download the simple blank test app 
 1. Wait until all packages have been restored
 1. Android
     1. Right-click the ***XamarinSetupTest.Droid*** project, select <kbd>Set as StartUp Project</kbd>
-    1. Make sure the Run settings at the topbar are *Debug*, (*Any CPU*) and a Android Emulator is selected
+    1. Make sure the Run settings at the top bar are *Debug*, (*Any CPU*) and a Android Emulator is selected
     1. Click the green ***Run*** button
     1. An Android Emulator should spin up and launch the app
 1. iOS
     1. Only on Windows: Make sure that the Remote Mac Build Host is connected as shown above
     1. Right-click the ***XamarinSetupTest.iOS*** project, select <kbd>Set as StartUp Project</kbd>
-    1. Make sure the Run settings at the topbar are *Debug*, *iPhone Simulator* and a iOS Simulator is selected
+    1. Make sure the Run settings at the top bar are *Debug*, *iPhone Simulator* and a iOS Simulator is selected
     1. Click the green ***Run*** button
     1. An iOS Simulator should spin up and launch the app
 1. Windows
     1. Make sure you opened the Solution on Windows as OSX/macOS can not build Windows apps
     1. Right-click the ***XamarinSetupTest.UWP*** project, select <kbd>Set as StartUp Project</kbd>
-    1. Make sure the Run settings at the topbar are *Debug*, *Any CPU* and *Local Machine* is selected
+    1. Make sure the Run settings at the top bar are *Debug*, *Any CPU* and *Local Machine* is selected
     1. Click the green ***Run*** button
     1. The app should be launched
 

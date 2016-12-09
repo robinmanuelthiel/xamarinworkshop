@@ -3,14 +3,14 @@ To dig deeper into the workflow of Xamarin development, we will create a real ap
 
 > **Hint:** If you got stuck during this module or lost the overview on where to place which code, you can always take the look at the [finished and working project](./Code) that is attached to this module.
 
-We will create a conference app that will list all sessions with their speakers in seperate tabs. Both, sessions and speakers will also have details pages that will be shown when the user tabs on an item. This results in having three views for the app:
+We will create a conference app that will list all sessions with their speakers in separate tabs. Both, sessions and speakers will also have details pages that will be shown when the user tabs on an item. This results in having three views for the app:
 
 - `MainPage` with two taps for sessions and speakers
 - `SessionDetailsPage` with session details
 - `SpeakerDetailsPage` with speaker details
 
 ## 1. Create the base structure
-Creating a new Xamarin.Forms project is similar to creating a Xamarin Platform app as we already did before. In Visual Studio on Windows it's clickinng <kbd>File</kbd> <kbd>New</kbd> <kbd>Project...</kbd>, navigating to the ***Cross-Platform*** section and selecting ***Blank Xaml App (Xamarin.Forms Portable)***. As we are creating a conference app here that uses Xamarin Forms. let's call the project "*Conference.Forms*" and the solution just "*Conference*".
+Creating a new Xamarin.Forms project is similar to creating a Xamarin Platform app as we already did before. In Visual Studio on Windows it's clicking <kbd>File</kbd> <kbd>New</kbd> <kbd>Project...</kbd>, navigating to the ***Cross-Platform*** section and selecting ***Blank Xaml App (Xamarin.Forms Portable)***. As we are creating a conference app here that uses Xamarin Forms. let's call the project "*Conference.Forms*" and the solution just "*Conference*".
 
 ![New Xamarin.Forms project in Visual Studio Screenshot](../Misc/vsnewxamarinformsproject.png)
 
@@ -41,11 +41,11 @@ As the models we want to create do not have any platform specifics and are not u
 
 ![Add Portable Class Library in Visual Studio Screenshot](../Misc/vsaddpcl.png)
 
-At this point, we should take a short digression on Portable Class Libaries (PCL). In .NET, these are projects that combine a subset of APIs and Types and offer the developer to use these across multiple projects. Inside the settings of Portable Class Libaries, we can choose which platforms, we want to target and the library will offer all of the overlapping APIs.
+At this point, we should take a short digression on Portable Class Libraries (PCL). In .NET, these are projects that combine a subset of APIs and Types and offer the developer to use these across multiple projects. Inside the settings of Portable Class Libaries, we can choose which platforms, we want to target and the library will offer all of the overlapping APIs.
 
 > **Hint:** In case you are more advanced and wondering: Yes, Xamarin does support [.NET Standard](https://blogs.msdn.microsoft.com/dotnet/2016/09/26/introducing-net-standard/) and you can also switch the PCLs to it, if you like. Currently this sometimes might cause some problems, which is why we avoid it in this workshop.
 
-We can choose a wide rang of APIs for our PCLs to make it compatible with as many other .NET platforms as possible.
+We can choose a wide range of APIs for our PCLs to make it compatible with as many other .NET platforms as possible.
 
 ![Set PCL target in Visual Studio Screenshot](../Misc/vspclprofile.png)
 
@@ -78,14 +78,14 @@ The last thing, we need to do is connecting the Portable Class Library with our 
 ![Add References in Visual Studio Screenshot](../Misc/vsaddreference.png)
 
 ## 3. Create the ViewModels
-It's a common approach to use the Mode-View-ViewModel pattern (short: MVVM) in Xamarin.Forms and so will we do. This pattern enables us to have a very clean seperation between every section, which allows us to build our application open for extensions and have a nice seperation of code when it comes to sharing and reusability.
+It's a common approach to use the Mode-View-ViewModel pattern (short: MVVM) in Xamarin.Forms and so will we do. This pattern enables us to have very clean layers, which allows us to build our application open for extensions and have a nice separation of code when it comes to sharing and reusability.
 
-> **Hint:** One of MVVM's main characteristics is the *ViewModel*, which provides logic for the *View* without knowing the *View* itself. It basically is, what the *Contoller* does in other design patterns but can be reused in multiple Frontend projects, because it does not know anything about the View it serfes and only provides *Properties* and *Commands* (methods) that can be bound to the *View* later. This connection is called *Binding*. More information about MVVM can be found at the [MSDN library](https://msdn.microsoft.com/en-us/library/hh848246.aspx) or [Codeproject](http://www.codeproject.com/Articles/100175/Model-View-ViewModel-MVVM-Explained).
+> **Hint:** One of MVVM's main characteristics is the *ViewModel*, which provides logic for the *View* without knowing the *View* itself. It basically is, what the *Contoller* does in other design patterns but can be reused in multiple Frontend projects, because it does not know anything about the View itself and only provides *Properties* and *Commands* (methods) that can be bound to the *View* later. This connection is called *Binding*. More information about MVVM can be found at the [MSDN library](https://msdn.microsoft.com/en-us/library/hh848246.aspx) or [Codeproject](http://www.codeproject.com/Articles/100175/Model-View-ViewModel-MVVM-Explained).
 
-As we can use the ViewModel not only for our Xamarin.Forms project but also for other Frontend solutions that are based on MVVM later, it's good practice, to seperate the ViewModel from the Xamarin.Forms project. Please be aware that it does **not** belong to our *Conference.Portable* project, as this should only contain those parts of our application that could be shared with *any other* layer (event with the backend). So let's keep it clean and create another ***Portable Class Library*** just as we did in the previous section and call it "*Conference.Frontend*".
+As we can use the ViewModel not only for our Xamarin.Forms project but also for other Frontend solutions that are based on MVVM later, it's good practice, to separate the ViewModel from the Xamarin.Forms project. Please be aware that it does **not** belong to our *Conference.Portable* project, as this should only contain those parts of our application that could be shared with *any other* layer (event with the backend). So let's keep it clean and create another ***Portable Class Library*** just as we did in the previous section and call it "*Conference.Frontend*".
 
 ### 3.1 Create a ViewModel that implements INotifyPropertyChanged
-Now we can create our ViewModel in the new project. Add a new class and name it `MainViewModel` as it should provide the properties and commands for our `MainPage`. The first thing we need to to, to make our new class to a ViewModel is implementing `INotifyPropertyChanged`. This is important for data binding in MVVM Frameworks and is an interface that, when implemented, lets our view know about changes to the model. Just copy the followning lines to your class to have a `OnPropertyChanged()` method, that will notify the View about changes, whenever it gets called.
+Now we can create our ViewModel in the new project. Add a new class and name it `MainViewModel` as it should provide the properties and commands for our `MainPage`. The first thing we need to to, to make our new class to a ViewModel is implementing `INotifyPropertyChanged`. This is important for data binding in MVVM Frameworks and is an interface that, when implemented, lets our view know about changes to the model. Just copy the following lines to your class to have a `OnPropertyChanged()` method, that will notify the View about changes, whenever it gets called.
 
 ```csharp
 public class MainViewModel : INotifyPropertyChanged
@@ -97,7 +97,7 @@ public class MainViewModel : INotifyPropertyChanged
 ```
 
 ### 3.2 Add a busy indicator
-It's a good pracice to ptovide a busy indicator to the view sothat it can show  this information to the user. So let's add a property to our ViewModel that indicates, if we are currently calculating or downloading stuff.
+It's a good practise to provide a busy indicator to the view so that it can show  this information to the user. So, let's add a property to our ViewModel that indicates, if we are currently calculating or downloading stuff.
 
 ```csharp
 private bool isBusy;
@@ -111,7 +111,7 @@ public bool IsBusy
 As you can see, we call `OnPropertyChanged()` in the setter to inform the View whenever the `IsBusy` property changes.
 
 ### 3.3 Create lists for Speakers and Sessions
-We also need to add two lists that the view can use for displaying speakers and sessions to the user. For these, we should use the `ObservableCollection` class that is an implementaion of `List` that notifies the view not only when it got set but also when its children changed.
+We also need to add two lists that the view can use for displaying speakers and sessions to the user. For these, we should use the `ObservableCollection` class that is an implementation of `List` that notifies the view not only when it got set but also when its children changed.
 
 ```csharp
 private ObservableCollection<Speaker> _Speakers;
@@ -158,7 +158,7 @@ public Session CurrentSession
 That's it. Now we have three ViewModels, one for each view that we can bind to the UI that we will create in the next step.
 
 ## 4. Create the MainPage
-Finally we can start creating the UI. As we remember from the start, we want to create three views for our application that we created ViewModels for. Let's begin creating MainPage and bind its UI to the ViewModel properties!
+Finally, we can start creating the UI. As we remember from the start, we want to create three views for our application that we created ViewModels for. Let's begin creating MainPage and bind its UI to the ViewModel properties!
 
 ### 4.1 Create the tabs
 When taking a look at the `MainPage.xaml` file, we can see, that Xamarin.Forms created a new page of type `ContentPage` for us. As we want to create a page with multiple tabs, we need to change this to a `TabbedPage`, which is a [pre-defined Xamarin.Forms Layout](https://developer.xamarin.com/guides/xamarin-forms/controls/layouts/). The tabs get defined by creating two `ContentPage`s inside which will contain the content of our session and speaker tabs.
@@ -207,7 +207,7 @@ public partial class MainPage : TabbedPage
 }
 ```
 
-Now we can bind the MainPages's UI elements to the ViewModel's properties. Also, the view now gets informed, whenever something in the ViewModel changes, because of the `INotifyPropertyChanged` implemetation.
+Now we can bind the MainPages's UI elements to the ViewModel's properties. Also, the view now gets informed, whenever something in the ViewModel changes, because of the `INotifyPropertyChanged` implementation.
 
 ### 4.3 Session and Speaker Lists
 Let's get back to the layout inside the `MainPage.xaml.cs` file and create the lists for sessions and speakers. In Xamarin.Forms lists are described with the `ListView` class. It has a property called `ItemsSource` which defines from which source it should display items and that is bindable. So we can bind it directly to the ViewModel.
@@ -268,9 +268,9 @@ Looks good, but pretty empty, mh? That's because we don't have any data to displ
 Communicating with a potential Backend or managing data is something that is not platform or Xamarin.Forms specific, so let's get back to the shared *Conference.Forms* project where our ViewModels are located. Here we can implement our data management logic.
 
 ### 5.1 Creating the Conference Service
-To keep the code seperation clean, we should create a new service class that handles data for us. Let's imagine, we had a Congerence Server that manages sessions and speakers somewhere in the cloud that we can connect to.
+To keep the code separation clean, we should create a new service class that handles data for us. Let's imagine, we had a Conference Server that manages sessions and speakers somewhere in the cloud that we can connect to.
 
-As we might be creating different ways of gettings data later (we will be using the cloud in the next modules), we should create an `IConferenceService` interface, that defines, how a conference data provider should look like.
+As we might be creating different ways of getting data later (we will be using the cloud in the next modules), we should create an `IConferenceService` interface, that defines, how a conference data provider should look like.
 
 ```csharp
 public interface IConferenceService
@@ -280,11 +280,11 @@ public interface IConferenceService
 }
 ```
 
-This is quite simple and just defines, that we are expecting two async methods from a service, that implements this interface: One for providing a list of speakers and one for the sessions.
+This is quite simple and just defines, that we are expecting two asynchronous methods from a service, that implements this interface: One for providing a list of speakers and one for the sessions.
 
-For the moment we are good with simple HTTP calls and can create a new class called `HttpConferenceService`, wich implements the `IConferenceService` interface in the Frontend project. Inside, we should define two async methods that return a list of speakers and sessions and call them `GetSessionsAsync` and `GetSpeakersAsync`. We define these classes as async, because we don't know how long the server connection might take. To not block the UI thread, we can run them on a separate thread easily by defining them as `async`.
+For the moment, we are good with simple HTTP calls and can create a new class called `HttpConferenceService`, wich implements the `IConferenceService` interface in the Frontend project. Inside, we should define two async methods that return a list of speakers and sessions and call them `GetSessionsAsync` and `GetSpeakersAsync`. We define these classes as asynchronous, because we don't know how long the server connection might take. To not block the UI thread, we can run them on a separate thread easily by defining them as `async`.
 
-> **Hint:** In C#, you can easily let methods run on a separate thread by defining their execution asyncronously with the `async` keyword. These methods have to return a `Task` or `Task<WithReturnType>` then. You can call the method using the `await` keyword.
+> **Hint:** In C#, you can easily let methods run on a separate thread by defining their execution asynchronously with the `async` keyword. These methods have to return a `Task` or `Task<WithReturnType>` then. You can call the method using the `await` keyword.
 
 ```csharp
 public class HttpConferenceService
@@ -302,9 +302,9 @@ public class HttpConferenceService
 ```
 
 ### 5.2 Talking to a webserver via HttpClient
-As you can see, we are just returning empty lists at the moment so it is time to fill them. For this, we need to talk a webserver, which is where the `HttpClient` class comes into play. It offers the very simple to use `GetStringAsync(string)` method, that sends a GET-Request to an URL and returns its string-content.
+As you can see, we are just returning empty lists at the moment so it is time to fill them. For this, we need to talk a web-server, which is where the `HttpClient` class comes into play. It offers the very simple to use `GetStringAsync(string)` method, that sends a GET-Request to an URL and returns its string-content.
 
-Unfortunately, HTTP requests are handled individually on each platform which entails, that we can't use the `HttpClass` itself in our Portable Class Libary. But what we can do, is creating an interface `IHttpService` that every platform has to implement by itself.
+Unfortunately, HTTP requests are handled individually on each platform which entails, that we can't use the `HttpClass` itself in our Portable Class Library. But what we can do, is creating an interface `IHttpService` that every platform has to implement by itself.
 
 ```csharp
 public interface IHttpService
@@ -315,9 +315,9 @@ public interface IHttpService
 
 We can use this interface inside our `HttpConferenceService` and simply gives implement it on platform-level later.
 
-> **Hint:** We used the concept of *Dependency Injection* here for the first time, which is fundamentally important for a clean platform independent architecture. The processing of the downloaded data can be done platform idependently, so we should implement it here. The download itslef has to be implemented for each platform, but we can split it here and make the platform provide and implementaion of an interface that we use at runtime.
+> **Hint:** We used the concept of *Dependency Injection* here for the first time, which is fundamentally important for a clean platform independent architecture. The processing of the downloaded data can be done platform independently, so we should implement it here. The download itself has to be implemented for each platform, but we can split it here and make the platform provide an implementation of an interface that we use at runtime.
 
-We can now use this interface in our `HttpConferenceService` and tell the constuctor, that it needs and implementation of our `IHttpService` interface, when it gets instanciated.
+We can now use this interface in our `HttpConferenceService` and tell the constructor, that it needs and implementation of our `IHttpService` interface, when it gets instantiated.
 
 ```csharp
 public class HttpConferenceService : IConferenceService
@@ -334,11 +334,11 @@ public class HttpConferenceService : IConferenceService
 ```
 
 ### 5.3 Download session and speaker information
-We will be talking about backends in detail in the next module so let's just pretend we had a powerful backend here and mock the data. For this, I've prepated two JSON files for a list of demo sessions and speakers and [uploaded them to GitHub](). You can see, that they match the structure of our `Session` and `Speaker` classes.
+We will be talking about backends in detail in the next module so let's just pretend we had a powerful backend here and mock the data. For this, I've prepared two JSON files for a list of demo sessions and speakers and [uploaded them to GitHub](). You can see, that they match the structure of our `Session` and `Speaker` classes.
 
 As you will have noticed, the data is formatted in JSON, which is a common and widely spread standard for data exchange. We need a way to convert JSON to C# classes and vice versa so let's get some help from the community and add the great [Json.NET NuGet package](https://www.nuget.org/packages/newtonsoft.json/), which allows us to work with JSON easily. 
 
-> **Important:** You need to add the Json.NET package to every project that uses it later: The Portable Class Library and the platoform projects. When using Visual Studio on Windows, you can just right-click the Solution file and select <kbd>Manage NuGet Packages for Solution...</kbd>.
+> **Important:** You need to add the Json.NET package to every project that uses it later: The Portable Class Library and the platform projects. When using Visual Studio on Windows, you can just right-click the Solution file and select <kbd>Manage NuGet Packages for Solution...</kbd>.
 
 ![Add Json.NET NuGet package in Visual Studio Screenshot](../Misc/vsaddjsonnet.png)
 
@@ -367,9 +367,9 @@ public async Task<List<Speaker>> GetSpeakersAsync()
 ### 5.4 Use the ConferenceService in the ViewModel
 Now that we created methods that download the conference information from the (mocked) server and converts them to `List<Speaker>` and `List<Session>` we can move over to our `MainViewModel` to call them there.
 
-For this, our ViewModel needs an instance of the `HttpConferenceService` of course. But there is a little problem: As the `HttpConferenceService` needs an implementaion of `IHttpService` to get instanciated, we cannot to the instanciation inside the `MainViewModel`. It also lives in the Portable Class Library and does not (and should not) know, how HTTP requests works on the plaforms.
+For this, our ViewModel needs an instance of the `HttpConferenceService` of course. But there is a little problem: As the `HttpConferenceService` needs an implementation of `IHttpService` to get instantiated, we cannot to the instantiation inside the `MainViewModel`. It also lives in the Portable Class Library and does not (and should not) know, how HTTP requests works on the platforms.
 
-To solve this, we use the same trick again, that we already used in the `HttpConferenceService` class: Dependency Injection. By claiming a `HttpConferenceService` implementaion in the ViewModel's contructor, someone else is responsoble for creating a `HttpConferenceService` and providing it to our ViewModel. Someone, who *has* knowledge of HTTP requests: The plaforms itslef. Our dependency chain grows!
+To solve this, we use the same trick again, that we already used in the `HttpConferenceService` class: Dependency Injection. By claiming a `HttpConferenceService` implementaion in the ViewModel's constructor, someone else is responsible  for creating a `HttpConferenceService` and providing it to our ViewModel. Someone, who *has* knowledge of HTTP requests: The platform itself. Our dependency chain grows!
 
 ```csharp
 public class MainViewModel : INotifyPropertyChanged
@@ -385,7 +385,7 @@ public class MainViewModel : INotifyPropertyChanged
 }
 ```
 
-There is no problem with that. On the contrary, this is good and clean. Remember, who is instanciating the `MainViewModel`! Right, it is the view. It's our `MainPage.xaml.cs` file that calls `viewModel = new MainViewModel();` in its constuctor. The MainPage lives inside the Xamarin.Forms project so it has platform knowledge and can implement `IHttpService` easily.
+There is no problem with that. On the contrary, this is good and clean. Remember, who is instantiating  the `MainViewModel`! Right, it is the view. It's our `MainPage.xaml.cs` file that calls `viewModel = new MainViewModel();` in its constructor. The MainPage lives inside the Xamarin.Forms project so it has platform knowledge and can implement `IHttpService` easily.
 
 > **Hint:** Sorry for taking so much time for *Dependency Injection* but this is the hardest part to understand. If you got this, you can master incredibly clean and nested architectures easily and reuse your code like you have never imagined!
 
@@ -419,13 +419,13 @@ protected override async void OnAppearing()
 }
 ```
 
-Actually that is all we need to do. But you might have noticed, that our project does not build successfully anymore because the `MainViewModel` can not get instanciated with the default constuctor anymore. So we need to serve the mechanisms of Dependency Injection.
+Actually, that is all we need to do. But you might have noticed, that our project does not build successfully anymore because the `MainViewModel` can not get instantiated with the default constructor anymore. So we need to serve the mechanisms of Dependency Injection.
 
 ### 5.6 Play the Dependency Injection game
 Remember, that we created some dependencies, when creating our services.
 
 1. The `HttpConferenceService` needs an implementaion of `IHttpService`
-2. The `MainViewModel` needs an instance of `HttpConferenceService` which needs an implementaion of `IHttpService`
+2. The `MainViewModel` needs an instance of `HttpConferenceService` which needs an implementation of `IHttpService`
 
 To solve the first dependency, we should finally implement this `IHttpService` interface in our Xamarin.Forms project. So let's create a `FormsHttpService` class here.
 
@@ -452,7 +452,7 @@ public class FormsHttpService : IHttpService
 }
 ```
 
-Now that we have everything we need to build our Dependency Injection chain, we can go back to the `MainPage.xaml.cs` file and instanciate the `MainViewModel` with its dependecies.
+Now that we have everything we need to build our Dependency Injection chain, we can go back to the `MainPage.xaml.cs` file and instanciate the `MainViewModel` with its dependencies.
 
 ```csharp
 public MainPage()
@@ -467,7 +467,7 @@ public MainPage()
 }
 ```
 
-Everything can be instanciated correctly now and we can run our application and finally download the data we need. So let's see how the application looks like on the different platforms!
+Everything can be instantiated  correctly now and we can run our application and finally download the data we need. So let's see how the application looks like on the different platforms!
 
 ![Screenshot of the current App status on iOS, Android and Windows](../Misc/formsconferencefull.png)
 
@@ -477,7 +477,7 @@ Everything can be instanciated correctly now and we can run our application and 
 Let's quickly create two new pages for the speaker and session details. The procedure is the same as we already did with the `MainPage`: Create the layout, bind it to the ViewModel and add it as Binding Context.
 
 ### 6.1 Create the views
-We need two more pages to show details for sepaker and session. Add them by right-clicking the Xamarin.Forms project, clicking on <kbd>Add</kbd> <kbd>New Item...</kbd> and selecting the ***Forms Xaml Page*** template. Let's name them `SpeakerDetailsPage` and `SessionDetailsPage`.
+We need two more pages to show details for speaker and session. Add them by right-clicking the Xamarin.Forms project, clicking on <kbd>Add</kbd> <kbd>New Item...</kbd> and selecting the ***Forms Xaml Page*** template. Let's name them `SpeakerDetailsPage` and `SessionDetailsPage`.
 
 To keep the UI simple, we can just arrange a bunch of `Label`s vertically below each other in a `StackLayout` for the `SessionDetailsPage.xaml`.
 
@@ -525,7 +525,7 @@ Let's do the same for the `SpeakerDetailsPage.xaml` and add an additional pictur
 ### 6.2 Initialize the ViewModel
 As you can see, we created views, that bind against the `CurrentSpeaker` and `CurrentSession` properties of their regarding view models. So let's kick them off. These procedure is the same for both pages, so we need to do it in both.
 
-First we create a ViewModel property in the code behind file, instanciate it and set is as the pages Binding Context.
+First, we create a ViewModel property in the code behind file, instantiate it and set is as the pages Binding Context.
 
 ```csharp
 public partial class SessionDetailsPage : ContentPage
@@ -547,7 +547,7 @@ public partial class SessionDetailsPage : ContentPage
 
 When the `SessionDetailsViewModel` gets instanciated, its `CurrentSession` property will be `null` by default. So it needs to get set to the currently selected session. As the `SessionDetailsPage` does not know this session yet, we have to provide this information, whenever navigating to it.
 
-For this, add a `Session` property to the constuctor of the page.
+For this, add a `Session` property to the constructor of the page.
 
 ```csharp
 public SessionDetailsPage(Session session)
@@ -586,7 +586,7 @@ Nice, now we just have to navigate to the according details page, whenever a spe
 </ContentPage>
 ```
 
-Inside the `MainPage.xaml.cs` code behind file, we now have to implement these Event Handlers sothat they can be called whenever the user selected an item.
+Inside the `MainPage.xaml.cs` code behind file, we now have to implement these Event Handlers so that they can be called whenever the user selected an item.
 
 ```csharp
 private void Session_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
@@ -615,14 +615,14 @@ private void Session_ItemSelected(object sender, Xamarin.Forms.SelectedItemChang
 }
 ```
 
-Navigation in Xamarin.Forms is easy, as the framework already provides a `Navigation` class to us that contains implemetations for the navigation on each platform. We can use its `PushAsync(Page)` method to navigate to another page. This page has to be instanciated of course with ... correct, the selected item.
+Navigation in Xamarin.Forms is easy, as the framework already provides a `Navigation` class to us that contains implementations for the navigation on each platform. We can use its `PushAsync(Page)` method to navigate to another page. This page has to be instantiated of course with ... correct, the selected item.
 
 ```csharp
 // Navigate to details page and provide selected session
 Navigation.PushAsync(new SessionDetailsPage(selectedSession));
 ```
 
-After we handled the `ItemSelected` event, we should unselect the current item sothat out `Session_ItemSelected` handler should now look like this:
+After we handled the `ItemSelected` event, we should unselect the current item so that out `Session_ItemSelected` handler should now look like this:
 
 ```csharp
 private void Session_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
@@ -650,7 +650,7 @@ Phew, what a ride! Let's take a breath and review what we have learned in this m
 As you might have noticed, structure is very important to me. I just want to prepare you for the future and we created many things here that can be shared across different projects. So let's take a look at what we build.
 
 - Conference.Core
-    - Contains Models and Serverices that are abosolutely independent from its usage scenario
+    - Contains Models and Serverices that are absolutely independent from its usage scenario
     - Can be shared with **every other** .NET project in our ecosystem. Server, Bot, Microservice or whatever
     - Changes affect every layer of our solution
 - Conference.Frontend
@@ -658,7 +658,7 @@ As you might have noticed, structure is very important to me. I just want to pre
     - Can be shared with **every other** .NET frontend solution, not only Xamarin
     - Defines Interfaces that frontends have to implement
 - Conference.Forms
-    - Contains logic that can be shared with every platoform supported by Xamarin.Forms (iOS, Android, Windows, ...)
+    - Contains logic that can be shared with every platform supported by Xamarin.Forms (iOS, Android, Windows, ...)
     - Defines unified layouts and logic that gets rendered on each platform independently
 
 As structure is so important, it might be a good idea to add Solution Folders. These can help you structuring multiple projects. Take a look at the [finished and working project](./Code) that you can find in this repository.

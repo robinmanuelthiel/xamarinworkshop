@@ -1,16 +1,16 @@
 # Azure App Service Backend
-Now it's time to create a suitable Backend for our Conference App. As Xamarin likes many different Backend providers like AWS, IBM or Google and also provide SDKs for them in the component store, [Microsoft Azure](https://www.azure.com) is the prefered choice for Xamarin Developers around the world.
+Now it's time to create a suitable Backend for our Conference App. As Xamarin likes many different Backend providers like AWS, IBM or Google and also provide SDKs for them in the component store, [Microsoft Azure](https://www.azure.com) is the preferred choice for Xamarin Developers around the world.
 
 Not least, because it's an easy way to start with and can get scaled up to a really powerful service easily with a few clicks, we will start with Microsoft Azure's App Services. They provide an easy to use pre-configured backend solution called ***Azure Mobile App*** that offers
 
 - Easy Tables (Database)
 - Easy APIs using .NET or Node.js
 - Authentication (Active Directory and Social Login)
-- Offline Synchronisation
+- Offline Synchronization
 - Push Notifications
 - Easy Scalability
 
-## 1. Create a Azure Mobile App
+## 1. Create an Azure Mobile App
 Mobile Apps are part of the Azure App Service offer and provide a Platform as a Service (PaaS) architecture to give developers an easy way to host applications without too much infrastructure management overhead.
 
 To create a new Mobile App Resource, simply open the [Azure Portal](https://portal.azure.com) and login with your account.
@@ -28,7 +28,7 @@ Inside the portal click the ***New*** button and select the ***Web + Mobile*** c
 1. **Application Insights:** Telemetry tracking. We can leave it off for now and switch it on later.
 
 ## 2. Mobile App overview
-Once Azure created your Mobile App, you can open it's overview blade. This is the main entry point for your service.
+Once Azure created your Mobile App, you can open its overview blade. This is the main entry point for your service.
 
 ![Mobile App Overview Screenshot](../Misc/azuremobileappoverview.jpg)
 
@@ -44,7 +44,7 @@ Locate the ***Easy Tables*** entry at the side menu on the left and click on it.
 First, we need a database to use Easy Tables. Click on the message to start the wizard. Here we have to define a database to store the data in and initialize the backend logic then on top of it.
 
 ### 3.1 Connect a database
-In most cases it makes sense, to create a fresh new database for your App Service. To do this, follow these steps:
+In most cases, it makes sense to create a fresh new database for your App Service. To do this, follow these steps:
 
 1. Click in grey database connection warning sign to open the ***Data Connections*** tab.
 1. Click the ***Add*** button to configure a new connection
@@ -72,7 +72,7 @@ This will spin up a Node.js backend that is based on the Express.js framework th
 You can take a look at it and even edit the code online if you want to by selecting the ***App Service Editor*** in the side menu of your App Service.
 
 ## 4. Create the tables and fill them with data
-Now we can start creating tables and pump our speakers and sessions data into it. In the ***Easy Tables*** section, we can now manage tables, their schemas and data. To keep things simple we will upload pre-defined tables that matches the data from the JSON files of the previous module.
+Now we can start creating tables and pump our speakers and sessions data into it. In the ***Easy Tables*** section, we can now manage tables, their schemas and data. To keep things simple, we will upload pre-defined tables that matches the data from the JSON files of the previous module.
 
 For this, we click the ***Add from CSV*** button and select the [CSV files attached](./CSV) to this module.
 
@@ -80,4 +80,4 @@ For this, we click the ***Add from CSV*** button and select the [CSV files attac
 
 This will create two databases for you that represent the structure of the CSV files plus some additional fields like a *GUID* and *CreatedAt* field and few more. We can explore the data by clicking on one of these tables.
 
-Now that we have our backend up and runnung and filled with data, we can connect our frontend app with it.
+Now that we have our backend up and running and filled with data, we can connect our frontend app with it.

@@ -19,7 +19,7 @@ In Visual Studio for Windows, I can manage packages solution wide by right-click
 ![Import CSV files into Easy Tables Screenshot](../Misc/vsaddazuremobilenugetpack.png)
 
 ### 1.2 Initialize the Mobile Service
-The Azure Mobile Service SDK hast to intialized on each platform thet uses it seperately. We have already added the NuGet package, so we just have to kick it off on each platform.
+The Azure Mobile Service SDK has to initialized on each platform that uses it separately. We have already added the NuGet package, so we just have to kick it off on each platform.
 
 ```csharp
 // Initialize Azure Mobile App Client for the current platform
@@ -37,7 +37,7 @@ As we already learned that the Azure Mobile Client SDK uses platform specifics, 
 
 This does not matter at all, as we have a clean architecture and can simply create a `AzureConferenceService` in our Xamarin.Forms project. As long as it implements the `IConferenceService` interface, it can be used easily by the ViewModel.
 
-> **Hint:** Remember, the ViewModel does not care, where the implementation of `IConferenceService` lives. It is tolerant enough and just wants to have *any* implementation of it, when it gets instanciated.
+> **Hint:** Remember, the ViewModel does not care, where the implementation of `IConferenceService` lives. It is tolerant enough and just wants to have *any* implementation of it, when it gets instantiated.
 
 Add a new `AzureConferenceService` class to the Xamarin.Forms project, that implements the `IConferenceService` interface.
 
@@ -82,7 +82,7 @@ private IMobileServiceTable<Session> sessionTable;
 private IMobileServiceTable<Speaker> speakerTable;
 ```
 
-> **Hint:** When initializing these, the `MobileServiceClient` will look up tables that matches the models' structures and names. You can also provide a custom name, if your tables are named differnetly.
+> **Hint:** When initializing these, the `MobileServiceClient` will look up tables that matches the models' structures and names. You can also provide a custom name, if your tables are named differenetly.
 
 Next, we can add the initialization of the tables and can access them inside the `GetSessionsAsync()` and `GetSpeakersAsync` methods.
 

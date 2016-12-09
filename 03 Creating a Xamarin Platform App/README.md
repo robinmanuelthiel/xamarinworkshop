@@ -1,11 +1,11 @@
 # Creating a Xamarin Platform App
 Creating a Xamarin application is super simple, as Visual Studio does all the work for us. While installing, Xamarin creates Visual Studio templates, that contain everything we need to start coding for iOS, Android and Windows. Make sure, to setup your development environment correctly before starting to create Xamarin apps, as described in the [Setting up](/02%20Setting%20up) module.
 
-In this module, we will create a Xamarin Plaform App, not a Xamarin.Forms one. This makes a huge difference and the naming is a little bit clumsy, so let's clear it first.
+In this module, we will create a Xamarin Platform App, not a Xamarin.Forms one. This makes a difference and the naming is a little bit clumsy, so let's clear it first.
 
 **What does *Xamarin Platform* mean?**
 
-In general, Xamarin takes iOS, Android and Windows to the same developing technology (.NET) to makes it easier to develop for all three platforms at the same time and with the same team while enabling to share code snippets across all of these projects. This still means, that we will have a dedicated project for each platform and have to create layout and code for each platform. The main difference in the unifiend development language.
+In general, Xamarin takes iOS, Android and Windows to the same developing technology (.NET) to makes it easier to develop for all three platforms at the same time and with the same team while enabling to share code snippets across all of these projects. This still means, that we will have a dedicated project for each platform and have to create layout and code for each platform. The main difference in the unified development language.
 
 Xamarin.Forms often gets mistaken for Xamarin Platform and extends the concept by providing a unified UI technology with up- and downsides. In a real-world scenario, you have to choose carefully between these concepts. If you are not sure, what to use, I would always recommend Xamarin Platform, as it is a much cleaner and more powerful approach!
 
@@ -16,7 +16,7 @@ To create a new Xamarin app, simply click on <kbd>File</kbd> <kbd>New</kbd> <kbd
 
 ![Creating a new Xamarin App in Visual Studio Screenshot](../Misc/vsnewxamarinproject.png)
 
-As Visual Studio is creating multiple projects at once now, this process might take some seconds. When finished, you will the a new *Solution* with four different projects. One for each platform and one for the shared code. We will walk through all of these in this module. 
+As Visual Studio is creating multiple projects at once now, this process might take some seconds. When finished, you will see a new *Solution* with four different projects. One for each platform and one for the shared code. We will walk through all of these in this module. 
 
 ## The Android project
 When creating a cross-platform application, Xamarin creates a YourApp.**Droid** project for you, which is based on Xamarin.Android.
@@ -47,7 +47,7 @@ Actually, the Windows project has nothing to do with Xamarin and is nothing spec
 
 The fact that is already runs on .NET and uses C# in most cases lets it also benefit from the code-sharing. It does not have to get ported to C# because **it already is** there.
 
-So from a framework perspective, iOS and Android has been ported to the same technology stack that Windows apps already were on sothat they can work together seamlessly.
+So from a framework perspective, iOS and Android has been ported to the same technology stack that Windows apps already were on so that they can work together seamlessly.
 
 ## The Portable project
 The most exciting project might be the Portable Class Library that Xamarin created. All platform projects are referencing this library. This implies that everything that gets created in here, is available for every platform.
@@ -61,16 +61,16 @@ The Portable project is the perfect place for your
 - Models
 - ViewModels
 - Interfaces, that have to be implemented by the platform
-- Services, that are platform independant
+- Services, that are platform independent
 
 Every time, we add a new functionality to our solution, we should consider if it could be placed into this portable library as it makes **Maintaining**, **Testing**, **Bugfixes** and **Code Reuse** much easier!
 
-> **Important:** Being able to placing code here wich becomes available for every other platform is the real benefit of Xamarin!
+> **Important:** Being able to placing code here which becomes available for every other platform is the real benefit of Xamarin!
 
 ## Running the App
 To run the app either in an Emulator, Simulator or physical device, you need to select at least one platform as StartUp project. For this, right-click on one of the platform projects and select <kbd>Set as StartUp Project</kbd>.
 
-Now you can configure the Run Configurations for your app and select **Debug** or **Release** mode, **Architecture Model** and **Target Device** at the topbar of Visual Studio.
+Now you can configure the Run Configurations for your app and select **Debug** or **Release** mode, **Architecture Model** and **Target Device** at the top bar of Visual Studio.
 
 ![Android project in a Xamarin Solution Screenshot](../Misc/vsdebugxamarinandroidapp.png)
 
