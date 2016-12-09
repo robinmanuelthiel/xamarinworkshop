@@ -19,8 +19,8 @@ Please read the [Minimum System Requirements](https://developer.xamarin.com/guid
 - A Mac machine anywhere in your network as iOS Build Host
 
 ## Contribution
-I don't like creating workshops all on my own and am far from being perfect. So this workshop is all about contribution!
+Creating workshops all on my own is now fun especially as I am far from being a perfect developer or tutor. So this workshop is all about teamwork! All information that I try to provide here are state of the art as I write this workshop but technology change over time. Although I try to keep this workshop up-to-date, there always might be something outdated. In addition, this workshop is based on my personal knowledge, which means that it is definitely not perfect.
 
-All information that I try to provide here are state of the art as I write this workshop but technology change over time. Although I try to keep this workshop up-to-date, there always might be something outdated. In addition, this workshop is based on my personal knowledge, which means that it's not perfect. If you know something better, have a good idea or want to correct something, please feel free to create a pull request. This workshop is getting better with every single contribution!
+If you know something better, have a good idea, want to correct something or know a better teaching style please feel free to create a pull request. This workshop is getting better with every single contribution!
 
 Thank you ❤️
