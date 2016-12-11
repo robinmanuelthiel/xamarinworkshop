@@ -356,7 +356,7 @@ Now we can download the mocked Session and Speaker lists form the GitHub servers
 ```csharp
 public async Task<List<Session>> GetSessionsAsync()
 {
-    var json = await httpService.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/04%20Speaker%20App%20with%20Xamarin.Forms/Mock/mocksessions.json");
+    var json = await httpService.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/04%20Conference%20App%20with%20Xamarin.Forms/Mock/mocksessions.json");
     var sessions = JsonConvert.DeserializeObject<List<Session>>(json);
     return sessions;
 }
@@ -367,7 +367,7 @@ Let's do the same for our `GetSpeakersAsync()` method with the other JSON file a
 ```csharp
 public async Task<List<Speaker>> GetSpeakersAsync()
 {
-    var json = await httpService.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/04%20Speaker%20App%20with%20Xamarin.Forms/Mock/mockspeakers.json");
+    var json = await httpService.GetStringAsync("https://raw.githubusercontent.com/robinmanuelthiel/xamarinworkshop/master/04%20Conference%20App%20with%20Xamarin.Forms/Mock/mockspeakers.json");
     var speakers = JsonConvert.DeserializeObject<List<Speaker>>(json);
     return speakers;
 }
