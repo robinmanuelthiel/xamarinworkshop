@@ -43,4 +43,4 @@ Let's use this to set the `Icon` property for iOS only and extend the `MainPage.
 </ContentPage>
 ```
 
-Now, add the Icons, you can [find attached](/Icons) to the ***Resources*** folder of your iOS project. As the other platforms `Icon` property is set to an empty string, they will ignore the `Icon` property automatically. But careful, if we had defined the `Icon` the standard way `ContentPage Title="Sessions" Icon="Calendar.png">`, all platforms had to hold the image files in their projects.
+Now, add the Icons, you can [find attached](/Icons) to the ***Resources*** folder of your iOS project. As the other platforms `Icon` property is set to an empty string, they will ignore the `Icon` property automatically. But careful, if we had defined the `Icon` the standard way `<ContentPage Title="Sessions" Icon="Calendar.png">`, all platforms had to hold the image files in their projects.
