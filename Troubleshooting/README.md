@@ -22,7 +22,7 @@ error APT0000: Error retrieving parent for item: No resource found that matches 
 error APT0000: No resource found that matches the given name: attr 'colorAccent'.
 error APT0000: No resource found that matches the given name: attr 'colorPrimary'.
 ```
-Right-click the Android project and select <kbd>Clean</kbd> then <kbd>Rebuild</kbd>.
+right-click the Android project and select <kbd>Clean</kbd> then <kbd>Rebuild</kbd>.
 
 If this does not fix the problem:
 
