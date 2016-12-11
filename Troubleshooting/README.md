@@ -26,10 +26,10 @@ Right-click the Android project and select <kbd>Clean</kbd> then <kbd>Rebuild</k
 
 If this does not fix the problem:
 
-1. Close Visual Studio
+1. Close Visual Studio / Xamarin Studio
 1. Open the folder where your Android project lies and delete the `obj` and `bin` folder
 1. Open the folder where your `.sln` file and `packages` lies and delte the `packages folder`
 1. Go to the `%UserProfile%\.nuget\packages\` folder (Windows) or `~/.nuget/packages` folder (Mac) and delete all `Xamarin.Android.*` folders
 1. Go to the `%UserProfile%\AppData\Local\Xamarin` folder (Windows) or `~/.local/share/NuGet/Cache` folder (Mac) and delete all `Xamarin.Android.*` folders and the `zips` folder
-1. Reopen Visual Studio, right-click your Solution and select <kbd>Rebuild Solution</kbd>
-1. Wait until it has finished and do not cancel this
+1. Reopen Visual Studio / Xamrin Studio, right-click your Solution and select <kbd>Rebuild Solution</kbd>
+1. Wait until it has finished and do not cancel the package restore or build
