@@ -123,18 +123,18 @@ As you can see, we call `OnPropertyChanged()` in the setter to inform the View w
 We also need to add two lists that the view can use for displaying speakers and sessions to the user. For these, we should use the `ObservableCollection` class that is an implementation of `List` that notifies the view not only when it got set but also when its children changed.
 
 ```csharp
-private ObservableCollection<Speaker> _Speakers;
+private ObservableCollection<Speaker> speakers;
 public ObservableCollection<Speaker> Speakers
 {
-    get { return _Speakers; }
-    set { _Speakers = value; OnPropertyChanged(); }
+    get { return speakers; }
+    set { speakers = value; OnPropertyChanged(); }
 }
 
-private ObservableCollection<Session> _Sessions;
+private ObservableCollection<Session> sessions;
 public ObservableCollection<Session> Sessions
 {
-    get { return _Sessions; }
-    set { _Sessions = value; OnPropertyChanged(); }
+    get { return sessions; }
+    set { sessions = value; OnPropertyChanged(); }
 }
 ```
 
