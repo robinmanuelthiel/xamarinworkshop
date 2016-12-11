@@ -35,7 +35,7 @@ You can select Xamarin from the ***Features*** list in the Visual Studio install
 ### On Mac
 On a Mac, Xamarin needs to be installed differently. [Download the installer](https://www.xamarin.com/download) and run it. It should install all Xamarin components you need, including the Android SDK and Xamarin Studio, which will be your IDE on OSX/macOS.
 
-## Prepare the Android development
+## Prepare for Android development
 ### Android SDK
 Both ways of installing Xamarin for Mac or Windows should install the Android SDK automatically. If anything goes wrong, you can also [download it from the Google Developer portal](https://developer.android.com/studio/index.html).
 
@@ -68,7 +68,7 @@ To test your Android apps, you might need an emulator. You can use any emulator 
   - Google Emulator that comes with [Android Studio](https://developer.android.com/studio/index.html)
   - [Genymotion](https://www.genymotion.com/#!/)
 
-## Prepare the iOS development
+## Prepare for iOS development
 ### iOS SDK and Simulator
 To work with iOS, you need a Mac (at least anywhere in your network) with [Xcode](https://itunes.apple.com/de/app/xcode/id497799835?mt=12) installed. By default, this will install the latest iOS SDK and several simulators. You have to start Xcode at least once shortly, to initialize everything.
 
@@ -82,11 +82,11 @@ First, make sure, that the Mac has Xamarin (in the exact same version as on Wind
 ### Remote iOS Simulator for Windows
 Here you can also select the *Remote iOS Simulator* on Windows. If you check this, the iOS Simulator from the Mac will be streamed to your Windows machine and you can test your app there.
 
-## Prepare the Universal Windows development
+## Prepare for Windows development
 ### UWP SDK and Emulators
 The Windows 10 (UWP) SDK has also be installed with Visual Studio. If you have not selected it while installing Visual Studio, follow the same process as above. Open the ***Programs and Features*** window, select ***Visual Studio*** and click <kbd>Change</kbd> to add new features.
 
-Here you can select the ***Universal Windows App Development Tools** you want to install as well as Emulators for mobile. Remember, that you don't mandatory need Windows 10 Mobile Emulators, as you can run the same app package also in Windows 10 itself.
+Here you can select the ***Universal Windows App Development Tools*** you want to install as well as ***Emulators for mobile***. Remember, that you don't mandatory need Windows 10 Mobile Emulators, as you can run the same app package also in Windows 10 itself.
 
 ## Test your configuration
 To test you development environment, you can download the simple blank test app that is [attached to this module](/Setup%20Test%20App) and try to run it on all platforms you want to target. If you run in any errors, head over to the [Troubleshooting](../Troubleshooting) section and check if your problem can be resolved easily.
