@@ -430,29 +430,22 @@ protected override async void OnAppearing()
 
 Actually, that is all we need to do. But you might have noticed, that our project does not build successfully anymore because the `MainViewModel` can not get instantiated with the default constructor anymore. So we need to serve the mechanisms of Dependency Injection.
 
-### 5.6 Play the Dependency Injection game
+### 5.6 Implement HTTP on a platform level
 Remember, that we created some dependencies, when creating our services.
 
 1. The `HttpConferenceService` needs an implementaion of `IHttpService`
 2. The `MainViewModel` needs an instance of `HttpConferenceService` which needs an implementation of `IHttpService`
 
-To solve the first dependency, we should finally implement this `IHttpService` interface in our Xamarin.Forms project. So let's create a `FormsHttpService` class here.
+To solve the first dependency, we should finally implement this `IHttpService` interface. Usually when working cross-platform, we had to implement this on *every* platform. Fortunately, there already is a cross-platform implementation of `HttpClient` availaibe via NuGet, so we can use this and just have to place it inside our Xamarin.Forms project. So let's create a `FormsHttpService` class here.
 
-To add the `HttpService` class to our project, we need to install the [Microsoft HTTP Client Libraries NuGet package](https://www.nuget.org/packages/Microsoft.Net.Http) to our project. Usually, we had to implement the interface into every platform project, but thanks to the community again, we can use the [ModernHttpClient NuGet package](https://www.nuget.org/packages/modernhttpclient/) to avoid this. So add them both to your Xamarin.Forms project and create the `FormsHttpService`. 
+To make the `HttpService` class available, we need to install the [Microsoft.Net.Http NuGet package](https://www.nuget.org/packages/Microsoft.Net.Http) into our Xamarin.Forms project. Now we can finally write the `FormsHttpService`.
 
 ```csharp
-using ModernHttpClient;
 using System.Net.Http;
 
 public class FormsHttpService : IHttpService
 {
-    private HttpClient httpClient;
-
-    public FormsHttpService()
-    {
-        // Create a cross-plaform HttpClient for Xamarin
-        httpClient = new HttpClient(new NativeMessageHandler());
-    }
+    private HttpClient httpClient = new HttpClient();
 
     public async Task<string> GetStringAsync(string url)
     {
@@ -461,6 +454,29 @@ public class FormsHttpService : IHttpService
 }
 ```
 
+Theoretically, this class would also work inside the shared ***Conference.Frontend*** project and there would be no need to declare it inside ***Conference.Forms***. It does not rely on any plaform-specifics, as the `Microsoft.Net.Http` NuGet package provides an `HttpClient` implementation that is compatible for **every** .NET platform.
+
+But we want to go one step further here and extend this by using the **native** HTTP implementations, that each plaform brings per default. So we can choose between the .NET handling of HTTP or the Android and iOS one. For compatibility, we should use the last and add the [ModernHttpClient NuGet package](https://www.nuget.org/packages/modernhttpclient/) to our Xamarin.Forms project. It extends the .NET `HttpClient` with the native handlers and we can simply add it to the `FormsHttpService`.
+
+```csharp
+using ModernHttpClient;
+using System.Net.Http;
+
+public class FormsHttpService : IHttpService
+{
+    // Use the native HTTP handling of each platform
+    private HttpClient httpClient = new HttpClient(new NativeMessageHandler());
+    
+    public async Task<string> GetStringAsync(string url)
+    {
+        return await httpClient.GetStringAsync(url);
+    }
+}
+```
+
+> **Warning:** Please double-check, that you are using the `HttpClient` from the `System.Net.Http` namespace and **not** the one from ~~`Windows.Web.Http`~~, as it is only availaibe on Windows platforms! 
+
+### 5.7 Play the Dependency Injection game
 Now that we have everything we need to build our Dependency Injection chain, we can go back to the `MainPage.xaml.cs` file and instanciate the `MainViewModel` with its dependencies.
 
 ```csharp
