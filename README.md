@@ -4,7 +4,7 @@
 Welcome, it is good to see you here being interested in learning how to write native mobile applications for iOS, Android and Windows in C#. Take some time to read the prerequisites, prepare your machine and start with the first lesson, when you are ready.
 
 ## Prerequisites
-Please read the [Minimum System Requirements](https://developer.xamarin.com/guides/cross-platform/getting_started/requirements/) to check if your system is ready. If you need help in preparing your development environment check the [Setting up module](/02%20Setting%20up).
+Please read the [Minimum System Requirements for Xamarin](https://developer.xamarin.com/guides/cross-platform/getting_started/requirements/) to check if your system is ready. If you need help in preparing your development environment, check out the [Setting up module](/02%20Setting%20up).
 
 > **Hint:** Installation and Setup of your Xamarin development environment can be a little bit tricky as so many different components have to intertwine. This list just describes what you need. You don't have to install it now, as there is an own  [Setting up module](/02%20Setting%20up).
 
