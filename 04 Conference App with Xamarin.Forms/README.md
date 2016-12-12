@@ -498,6 +498,17 @@ Everything can be instantiated  correctly now and we can run our application and
 
 > **Hint:** Please keep in mind, that we made everything dramatically more complicated than needed. Of course, we could have implemented everything insinde the Xamarin.Forms project without any need of Dependency Injection. But consider, that we can reuse the ViewModels and Services in **any other** .NET project! 
 
+### 5.8 Fix an Android Image via HTTPS bug
+As you might have noticed, the Android app does not show any profile images. This has the following reason: The profile images are loaded via HTTPS and Android's security guidelines do not allow resource loading anymore when not supporting the latest TLS 1.2 version. Xamarin is working on upgrading its HTTPS implementations to 1.2, but for the moment, they are on 1.1 we have to tell the Android project to use its native `AndroidClientHandler` which already supports TLS 1.2. 
+
+This can be done, by modifying Android's environment variables. Right-cick on the ***Conference.Android*** project, select <kbd>Add</kbd> <kbd>New Item...</kbd> and search for a simple text file, that you call `EnvironmentVariables.txt`. Its only content is a single line, that tells the Android system, which HttpClient implementation it should use by default.
+
+```
+XA_HTTP_CLIENT_HANDLER_TYPE=Xamarin.Android.Net.AndroidClientHandler
+```
+
+Now, right-click the `EnvironmentVariables.txt` file, select <kbd>Properties</kbd> and change its ***Build Action*** to ***AndroidEnvironment***. When you recompile and start your Android app now, all images should be loaded.
+
 ## 6. Create the Details Pages
 Let's quickly create two new pages for the speaker and session details. The procedure is the same as we already did with the `MainPage`: Create the layout, bind it to the ViewModel and add it as Binding Context.
 
