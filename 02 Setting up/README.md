@@ -15,7 +15,8 @@ You can select Xamarin from the ***Features*** list in the Visual Studio install
 - Windows and Web Development
   - Universal Windows App Development Tools
     - Tools and Windows 10 SDK
-    - Windows 10 SDK
+    - Windows 10 SDK (10.0.14393)
+    - Windows 10 SDK (10.0.10240)
   - Windows 8.1 and Windows Phone 8.0/8.1 Tools
     - Tools and SDKs
 - Cross Plaform Mobile Development
