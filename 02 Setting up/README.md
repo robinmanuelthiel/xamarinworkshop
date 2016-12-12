@@ -90,7 +90,7 @@ The Windows 10 (UWP) SDK has also be installed with Visual Studio. If you have n
 Here you can select the ***Universal Windows App Development Tools*** you want to install as well as ***Emulators for mobile***. Remember, that you don't mandatory need Windows 10 Mobile Emulators, as you can run the same app package also in Windows 10 itself.
 
 ## Test your configuration
-To test you development environment, you can download the simple blank test app that is [attached to this module](/Setup%20Test%20App) and try to run it on all platforms you want to target. If you run in any errors, head over to the [Troubleshooting](../Troubleshooting) section and check if your problem can be resolved easily.
+To test you development environment, you can download the simple blank test app that is [attached to this module](./Setup%20Test%20App) and try to run it on all platforms you want to target. If you run in any errors, head over to the [Troubleshooting](../Troubleshooting) section and check if your problem can be resolved easily.
 
 1. Open the Solution by double-clicking on the `XamarinSetupTest.sln` file and wait until your IDE spins up.
 1. Right-click on the Solution name at the top of the folder structure and select <kbd>Restore NuGet Packages</kbd> to download the packages
