@@ -78,12 +78,12 @@ When testing you app on iOS, I have to make sure that my machine is connected to
 
 To start the application, simply hit the **Run button** with the green play symbol. Now the compilation and deployment starts and your application will be launched.
 
-## Sharing Business Logic across the platforms
+## Sharing Business Logic across all platforms
 No magic until this point. Everything you did so far is creating three platform projects that also could have been created in Xcode and Swift for iOS or Android Studio and Java for Android. The **real benefit** of Xamarin is what comes now. By lifting all three platforms to the same technology stack, we can easily share code between them. Code, that we only create once but make it accessible for iOS, Android and Windows.
 
 At the moment, none of these projects use shared code. All of them define a button inside their layout files (`.axml` on Android, `.storyboard` on iOS and `.xaml` on Windows), define a counter and increase this counter when clicking on the button.
 
-Let's change this behaviour and run some logic from the shared code, when clicking the button. Navigate to the ***Portable*** project and extend the `MyClass` by a simple greeting method.
+Let's change this behavior and run some logic from the shared code, when clicking the button. Navigate to the ***Portable*** project and extend the `MyClass` by a simple greeting method.
 
 ```csharp
 public class MyClass
@@ -110,7 +110,7 @@ public class MainActivity : Activity
 }
 ```
 
-The Android's `MainActivity` can now use the `SendGreeting()` method, so let's modify the button click behaviour and set the button text to the greeting result.
+The Android's `MainActivity` can now use the `SendGreeting()` method, so let's modify the button click behavior and set the button text to the greeting result.
 
 ```csharp
 button.Click += delegate {
@@ -118,7 +118,7 @@ button.Click += delegate {
 };
 ```
 
-Same on ***iOS***. Here we add the `MyClass` instance to the `ViewController` class and also modify the button click hander.
+Same on ***iOS***. Here we add the `MyClass` instance to the `ViewController` class and also modify the button click handler.
 
 ```csharp
 public partial class ViewController : UIViewController
