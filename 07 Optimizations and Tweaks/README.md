@@ -3,10 +3,27 @@ Now that out app is running, we can start optimizing and refactoring a few thing
 
 ## Code Sharing
 ### Resolve dependencies with Inversion of Control
+Let's take a look at how we can improve the way we work with our dependecies and their instanciation. You remember, when it comes to creating the `MainViewModel` in the `MainPage`, we create instances of all the services it needs, pass them to the ViewModel's constructor and instanciate it then.
+
+```csharp
+public MainPage()
+{
+    InitializeComponent();
+
+    var httpService = new FormsHttpService();
+    var conferenceService = new HttpConferenceService(httpService);
+    viewModel = new MainViewModel(conferenceService);
+
+    BindingContext = viewModel;
+}
+```
 
 #### The problem
-Describe Problem!
- - singleton
+This works for us as our app is fairly simple, but might cause problems, when getting more complex.
+
+Mainly because we are not using **Singletons** here. So if multiple ViewModels would use the `ConferenceService` for example, they would all get their independent instance of it. This does not only demand more memory, it also causes consistency problems. Whenever the data in one `ConferenceService` changes, this would not be available in the other ViewModels.
+
+We can solve this by managing all dependencies at one central spot and other components like ViewModels can ask for an implementation of a specific class.
 
 #### The solution
 Xamarin.Forms brings its own `DependencyService` class with handles registration and lazy resolving of dependencies, so we could use it to resolve the Service classes and provide them as singleton.
