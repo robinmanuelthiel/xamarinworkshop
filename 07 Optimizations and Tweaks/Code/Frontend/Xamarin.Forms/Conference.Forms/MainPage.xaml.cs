@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Conference.Core;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace Conference.Forms
 {
@@ -18,11 +19,8 @@ namespace Conference.Forms
         {
             InitializeComponent();
 
-            var httpService = new FormsHttpService();
-			//var conferenceService = new HttpConferenceService(httpService);
-			var conferenceService = new AzureConferenceService();
-            viewModel = new MainViewModel(conferenceService);
-
+            // Get ViewModel from IoC Container
+            viewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
             BindingContext = viewModel;
         }
 
