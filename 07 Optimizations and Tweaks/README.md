@@ -1,6 +1,10 @@
 # Optimizations and Tweaks
 Now that out app is running, we can start optimizing and refactoring a few things to let our app look smoother and the architecture even cleaner.
 
+## Code Sharing
+### Resolve dependencies with a Service Locator
+- Use Xamarin.Forms `Dependency Service`
+
 ## Layout and UI
 ### Tab icons on iOS (only)
 As you might have noticed, the tabs at the bottom of iOS applications usually have icons that our app is missing. And even in Android, tabs can have icons. We can add a tab icon by settings the `Icon` property of a `ContentPage`. But as they can look a little bit weird on Android, let's only add them on iOS and write our first platform-specific UI decision.
