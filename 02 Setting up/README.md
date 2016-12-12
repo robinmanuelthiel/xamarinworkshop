@@ -1,7 +1,7 @@
 # Setting up
 Actually, the setup of a working Xamarin environment can get a little bit tricky and time consuming as so many different SDKs and technologies from different companies have to intertwine.
 
-You can absolutely both, **Windows 10 or OSX/macOS** to develop Xamarin applications. Both is fully supported and you can choose which fits your personal preferences most. As Visual Studio on Windows is the richest IDE, we will use it for this workshop, but you can do everything on Mac as well.
+You can absolutely use both, **Windows 10 or OSX/macOS** to develop Xamarin applications. Both are fully supported and you can choose which fits your personal preferences most. As Visual Studio on Windows is the richest IDE, we will use it for this workshop, but you can do everything on Mac as well.
 
 ## Install Xamarin
 Installing Xamarin should be easy but the process varies on the different platforms. We will go through both processes together.
