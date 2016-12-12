@@ -7,15 +7,12 @@ namespace Conference.Forms
 {
     public class FormsHttpService : IHttpService
     {
-        private HttpClient httpClient;
-
-        public FormsHttpService()
-        {
-            httpClient = new HttpClient(new NativeMessageHandler());
-        }
+        // Use the native HTTP handling of each platform
+        private HttpClient httpClient = new HttpClient(new NativeMessageHandler());
+                
         public async Task<string> GetStringAsync(string url)
-		{
-			return await httpClient.GetStringAsync(url);
+        {
+            return await httpClient.GetStringAsync(url);
         }
     }
 }

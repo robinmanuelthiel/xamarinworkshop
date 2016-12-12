@@ -10,19 +10,10 @@ We will create a conference app that will list all sessions with their speakers 
 - `SpeakerDetailsPage` with speaker details
 
 ## 1. Create the base structure
-### 1.1 Create a new Xamarin.Forms solution
 Creating a new Xamarin.Forms project is similar to creating a Xamarin Platform app as we already did before. In Visual Studio on Windows it's clicking <kbd>File</kbd> <kbd>New</kbd> <kbd>Project...</kbd>, navigating to the ***Cross-Platform*** section and selecting ***Blank Xaml App (Xamarin.Forms Portable)***. As we are creating a conference app here that uses Xamarin Forms. let's call the project "*Conference.Forms*" and the solution just "*Conference*".
 
 ![New Xamarin.Forms project in Visual Studio Screenshot](../Misc/vsnewxamarinformsproject.png)
 
-### 1.2 Update NuGet packages
-First, we have to check if we have the correct version of Xamarin.Forms in all our project. It is very important that the Xamarin.Forms NuGet packages are on the same version in each project. Unfortunately, this is not always the case when creating a fresh project.
-
-In Visual Studio for Windows, we can right-click the solution name and select <kbd>Manage NuGet Packages for Solution...</kbd>, on Mac we have to do this manually for each project. Check, that the ***Xamarin.Forms*** package is on the same version on *every* project. The version I am working with in this workshop is `2.3.3.175` but newer versions should work, too.
-
-> **Important:** When working with Xamarin.Forms. **do not update the Xamarin.Android.Support packages** to the latest version manually! Often, the latest Xamarin.Forms version is not automatically compatible with the latest Android Support Libraries.
-
-### 1.3 Inspect the project structure
 Let's inspect the Portable Class Library *Conference.Forms*, as this will be our main workplace. As we can see, there have also been iOS, Android and Windows projects for us but they are all linked to the shared project and only have to be touched when we want to implement platform specific features.
 
 The `App.xaml` and its according `App.xaml.cs` file are the main entry point for our Xamarin.Forms app. While the XAML file only defines application wide resources, the `App.xaml.cs` file holds the application lifecycle methods and  kicks off the Xamarin.Forms framework and your UI. The first thing, Xamarin.Forms does here is setting the entry point to a new instance of the `MainPage` class whose logic and layout we can also find in the shared project.
