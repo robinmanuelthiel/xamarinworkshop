@@ -77,3 +77,90 @@ Now you can configure the Run Configurations for your app and select **Debug** o
 When testing you app on iOS, I have to make sure that my machine is connected to a **Mac Build Host**. Then I can select **iPhone** or **iPhone Simulator** as Architecture Model and run the app on a Simulator or physical device.
 
 To start the application, simply hit the **Run button** with the green play symbol. Now the compilation and deployment starts and your application will be launched.
+
+## Sharing Business Logic across the platforms
+No magic until this point. Everything you did so far is creating three platform projects that also could have been created in Xcode and Swift for iOS or Android Studio and Java for Android. The **real benefit** of Xamarin is what comes now. By lifting all three platforms to the same technology stack, we can easily share code between them. Code, that we only create once but make it accessible for iOS, Android and Windows.
+
+At the moment, none of these projects use shared code. All of them define a button inside their layout files (`.axml` on Android, `.storyboard` on iOS and `.xaml` on Windows), define a counter and increase this counter when clicking on the button.
+
+Let's change this behaviour and run some logic from the shared code, when clicking the button. Navigate to the ***Portable*** project and extend the `MyClass` by a simple greeting method.
+
+```csharp
+public class MyClass
+{
+    public MyClass()
+    {        
+    }
+
+    public string SendGreeting()
+    {
+        return "Hello from shared code!";
+    }
+}
+```
+
+As all other projects are referencing the ***Portable*** project by default, they can now use the `MyClass` and its `SendGreeting()` method. To do so, let's start with the ***Android*** project, navigate to the `MainActivity.cs` file and define a new instance of `MyClass`.
+
+```csharp
+public class MainActivity : Activity
+{
+    private MyClass greeter = new MyClass();
+
+    // ...
+}
+```
+
+The Android's `MainActivity` can now use the `SendGreeting()` method, so let's modify the button click behaviour and set the button text to the greeting result.
+
+```csharp
+button.Click += delegate {
+    button.Text = greeter.SendGreeting();
+};
+```
+
+Same on ***iOS***. Here we add the `MyClass` instance to the `ViewController` class and also modify the button click hander.
+
+```csharp
+public partial class ViewController : UIViewController
+{
+    private MyClass greeter = new MyClass();
+
+    // ...
+
+    public override void ViewDidLoad ()
+    {
+        // ...
+
+        Button.TouchUpInside += delegate {
+            var title = greeter.SendGreeting();
+            Button.SetTitle (title, UIControlState.Normal);
+        };
+    }
+
+    // ...
+}
+```
+
+Inside the ***Windows*** projects, the `MainPage.xaml.cs` file is our point of interest. Same procedure as above: Add a `MyClass` instace and use its `SendGreeting()` method in the button click hander.
+
+```csharp
+public sealed partial class MainPage : Page
+{
+    private MyClass greeter = new MyClass();
+
+    // ...
+
+    public MainPage()
+    {
+        // ...
+
+        myButton.Click += delegate {
+            myButton.Content = greeter.SendGreeting();
+        }
+    }
+}
+```
+
+All three apps still completely work on their own and are responsible my handling UI and its logic on their own. But as soon as the user clicks on the button, they *all* point to the shared code file and run the code defined there. Of course, we can also define much more complex code here and even place most of the whole application logic inside the ***Portable*** Class!
+
+You will learn how to do this in the next modules!
