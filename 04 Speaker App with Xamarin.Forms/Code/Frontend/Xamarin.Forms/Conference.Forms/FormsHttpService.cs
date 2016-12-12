@@ -14,8 +14,8 @@ namespace Conference.Forms
             httpClient = new HttpClient(new NativeMessageHandler());
         }
         public async Task<string> GetStringAsync(string url)
-		{
-			return await httpClient.GetStringAsync(url);
+        {
+            return await httpClient.GetStringAsync(url);
         }
     }
 }
