@@ -18,7 +18,8 @@ namespace Conference.Forms
         {
             InitializeComponent();
 
-            var httpService = new FormsHttpService();
+			// var httpService = new FormsHttpService();
+			var httpService = DependencyService.Get<IHttpService>();
             var conferenceService = new HttpConferenceService(httpService);
             viewModel = new MainViewModel(conferenceService);
 
