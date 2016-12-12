@@ -2,8 +2,72 @@
 Now that out app is running, we can start optimizing and refactoring a few things to let our app look smoother and the architecture even cleaner.
 
 ## Code Sharing
-### Resolve dependencies with a Service Locator
-- Use Xamarin.Forms `Dependency Service`
+### Resolve dependencies with Inversion of Control
+
+#### The problem
+Describe Problem!
+ - singleton
+
+#### The solution
+Xamarin.Forms brings its own `DependencyService` class with handles registration and lazy resolving of dependencies, so we could use it to resolve the Service classes and provide them as singleton.
+
+```csharp
+// Register dependencies
+DependencyService.Register<IHttpService, FormsHttpService>();
+
+// Resolve dependencies
+var httpService = DependencyService.Get<IHttpService>();
+```
+
+Unfortunately, the Xamarin.Forms `DependencyService` is very basic and it can only resolve Services with a Default Constructor. So would not work with our `IConferenceService` or `MainViewModel`, because they need implementations of other services *injected*. This is, where **Inversion of Control (IoC)** comes into play.
+
+When using the IoC Abstraction Pattern, we define a container, that handles a registry of all known dependencies. Additionally, it creates objects and injects required dependencies automatically into their constructors. After registering all dependencies at the container, we can ask it to create an instance of any `Type` for us. It will look at the constructors of this `Type` and try to create dependencies for it out of the ones that have been registered. Then it injects these dependencies to the constructor and gives us back the instanciated class. Super handy!
+
+Fortunately, we do not have to implement this container by our own and can use one of the several free IoC Containers out there. As it is super compatible with all .NET platforms, I chose the one, that comes with the [MVVM Light Libs NuGet package](https://www.nuget.org/packages/MvvmLightLibs/). Once installed, navigate to the `App.xaml.cs` class and register the Services and ViewModels.
+
+```csharp
+public partial class App : Application
+{
+    public App()
+    {
+        InitializeComponent();
+
+        // Create Inversion of Control container
+        ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+        // Register Services
+        SimpleIoc.Default.Register<IHttpService, FormsHttpService>();
+        SimpleIoc.Default.Register<IConferenceService, HttpConferenceService>();
+
+        // Register ViewModels
+        SimpleIoc.Default.Register<MainViewModel>();
+        SimpleIoc.Default.Register<SessionDetailsViewModel>();
+        SimpleIoc.Default.Register<SpeakerDetailsViewModel>();
+
+        // ...
+    }
+}
+```
+
+On the `MainPage.xaml.cs` view for example, we can now get rid of the former dependency instanciation and just tell the `SimpleIoc` container, that we need the `MainViewModel` instnace. It automatically creates the dependencies for it and injects it to the `MainViewModel`'s constructor. 
+
+```csharp
+public partial class MainPage : TabbedPage
+{
+    private MainViewModel viewModel;
+
+    public MainPage()
+    {
+        InitializeComponent();
+
+        // Get ViewModel from IoC Container
+        viewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
+        BindingContext = viewModel;
+    }
+}
+```
+
+It might feel a little bit like black magic, but once this pattern is understood, it is one of the most powerful weapons in a developer's hands! 
 
 ## Layout and UI
 ### Tab icons on iOS (only)

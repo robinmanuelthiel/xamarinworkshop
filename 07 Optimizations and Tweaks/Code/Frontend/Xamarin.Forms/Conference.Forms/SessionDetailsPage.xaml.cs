@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Conference.Core;
 using Conference.Frontend;
 using Xamarin.Forms;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace Conference.Forms
 {
@@ -13,8 +14,10 @@ namespace Conference.Forms
 		public SessionDetailsPage(Session session)
 		{
 			InitializeComponent();
-			viewModel = new SessionDetailsViewModel();
-			viewModel.CurrentSession = session;
+
+            // Get ViewModel from IoC Container
+            viewModel = SimpleIoc.Default.GetInstance<SessionDetailsViewModel>();
+            viewModel.CurrentSession = session;
 			BindingContext = viewModel;
 		}
 	}
