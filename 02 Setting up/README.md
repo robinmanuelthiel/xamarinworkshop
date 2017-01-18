@@ -11,7 +11,7 @@ When working on Windows, [Visual Studio](https://www.visualstudio.com/downloads/
 
 ![Add Xamarin to Visual Studio installation Screenshot](../Misc/vsinstallxamarinfeatures.png)
 
-You can select Xamarin from the ***Features*** list in the Visual Studio installer. Make sure, that the following features get installed:
+You can select Xamarin from the ***Features*** list in the Visual Studio 2015 installer. Make sure, that the following features get installed:
 - Windows and Web Development
   - Universal Windows App Development Tools
     - Tools and Windows 10 SDK
