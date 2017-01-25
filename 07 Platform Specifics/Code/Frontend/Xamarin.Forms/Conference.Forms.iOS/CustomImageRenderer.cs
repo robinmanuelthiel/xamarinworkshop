@@ -15,6 +15,7 @@ namespace Conference.Forms.iOS
 
 			if (Control != null)
 			{
+				// Add corner radius to UIImage control
 				Control.Layer.CornerRadius = Control.Image.Size.Width / 2;
 				Control.ClipsToBounds = true;
 			}

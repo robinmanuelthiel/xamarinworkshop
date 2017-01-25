@@ -48,11 +48,11 @@ Device.OnPlatform(iOS: () => TestButton.Margin = new Thickness(14));
 ### 1.2 Platform specific styles
 Beside the XAML UI in Xamarin.Forms, you can also always access the platform projects directly and modify the UI there. Remember, that everything we define in XAML will be rendered to **native** UI elements for the platforms.
 
-As you might have noticed, the Android app does have a blue navigation bar by default, while the iOS one's is gray. As Xamarin.Forms does not support navigation bar colors by now, we could modify the `AppDelegate.cs` file inside the `Conference.Forms.iOS` project.
+As you might have noticed, the Android app does have a blue navigation bar by default, while the iOS one's is gray. Xamarin.Forms does not support navigation bar colors by now, but we can still define colors for the `UINavigationBar` the traditional way.
 
 ![Screenshots of the iOS app before and after the color change](../Misc/iosnavigationbarcolor.png)
 
-Here we can define colors for the `UINavigationBar` the traditional way.
+To do so, let's modify the `AppDelegate.cs` file inside the `Conference.Forms.iOS` project.
 
 ```csharp
 [Register("AppDelegate")]
@@ -60,7 +60,7 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
 {
     public override bool FinishedLaunching(UIApplication app, NSDictionary options)
     {
-        // Set Navigation Bar Color on iOS
+        // Set Navigation Bar Color for iOS
         UINavigationBar.Appearance.BarTintColor = UIColor.FromRGB(33, 150, 243);
         UINavigationBar.Appearance.TintColor = UIColor.White;
         UINavigationBar.Appearance.TitleTextAttributes = new UIStringAttributes() { ForegroundColor = UIColor.White };
@@ -71,6 +71,40 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
 ```
 
 ### 1.3 Custom Renderers
+Actually, everything that Xamarin.Forms does when creating native controls out of the XAML definition is using one of its [Renderer Base Classes](https://developer.xamarin.com/guides/xamarin-forms/custom-renderer/renderers/). These renderers turn XAML into native controls on each platform and they can be extended.
+
+Creating custom rendereders always follows the same steps
+
+1. Create a renderer class inside the platform project(s)
+1. Derive from [Renderer Base Class](https://developer.xamarin.com/guides/xamarin-forms/custom-renderer/renderers/)
+1. Override the `OnElementChanged` method
+1. Expose the renderer to the Xamarin.Forms framework using `ExportRenderer`
+
+#### 1.3.1 Extend existing renderers
+With custom renderers we can change the look and behaviour of controls and views that Xamarin.Forms brings out of the box.
+
+For example, we could change the way Xamarin.Forms renders images on iOS and extend the default `ImageRenderer` by a functionality that draws images in circles by default. For this, add a new class `CustomImageRenderer` to the `Conference.Forms.iOS` project and let it derive from `ImageRenderer`, which is the renderer that is used by Xamarin when using images according to [this list](https://developer.xamarin.com/guides/xamarin-forms/custom-renderer/renderers/).
+
+Now we can override the `OnElementChanged` method, call `base.OnElementChanged(e);` method to call the default behaviour and extend it by the `CornerRadius`, which is used by iOS to create round images.
+
+```csharp
+public class CustomImageRenderer : ImageRenderer
+{
+    protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.Image> e)
+    {
+        base.OnElementChanged(e);
+
+        if (Control != null)
+        {
+            // Add corner radius to UIImage control
+            Control.Layer.CornerRadius = Control.Image.Size.Width / 2;
+            Control.ClipsToBounds = true;
+        }
+    }
+}
+```
+
+Once we did this, the last thing we have to do is telling the Xamarin.Forms framework, that this is the new renderer to use, when it comes to an `Image`. This can be achieved by declaring the `ExportRenderer(Type FormsControl, Type Renderer)` assembly attribute to the namespace.
 
 ```csharp
 [assembly: ExportRenderer(typeof(Xamarin.Forms.Image), typeof(CustomImageRenderer))]
@@ -78,16 +112,11 @@ namespace Conference.Forms.iOS
 {
     public class CustomImageRenderer : ImageRenderer
     {
-        protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.Image> e)
-        {
-            base.OnElementChanged(e);
-
-            if (Control != null)
-            {
-                Control.Layer.CornerRadius = Control.Image.Size.Width / 2;
-                Control.ClipsToBounds = true;
-            }
-        }
-    }
-}
+        // ...
 ```
+
+After rebuilding the iOS application now and navigation to the `SpeakerDetailsPage`, we can see that the image on iOS is rendered differently from the images on Android and Windows, because we implemented a custom renderer for controls of type `Xamarin.Forms.Image` iOS.
+
+![Screenshots of the iOS with round profile image](../Misc/iosroundimagerenderer.png)
+
+#### 1.3.2 Create renderers for new controls
