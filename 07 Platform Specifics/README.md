@@ -1,6 +1,6 @@
 # Platform Specifics
 
-## 1. Platform specific UI
+## 1. Platform specific UI properties
 ### 1.1 Platform specific properties in XAML and code-behind
 When creating a shared UI with Xamarin.Forms, we might come to a point, where we want to adjust specific properties of these UIs regarding to the platform it runs on. Typical platform adjustments can be
 
@@ -69,8 +69,7 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
     }
 }
 ```
-
-### 1.3 Custom Renderers
+## 2. Custom Renderers
 Actually, everything that Xamarin.Forms does when creating native controls out of the XAML definition is using one of its [Renderer Base Classes](https://developer.xamarin.com/guides/xamarin-forms/custom-renderer/renderers/). These renderers turn XAML into native controls on each platform and they can be extended.
 
 Creating custom rendereders always follows the same steps
@@ -80,7 +79,7 @@ Creating custom rendereders always follows the same steps
 1. Override the `OnElementChanged` method
 1. Expose the renderer to the Xamarin.Forms framework using `ExportRenderer`
 
-#### 1.3.1 Extend existing renderers
+### 2.2 Extend existing renderers
 With custom renderers we can change the look and behaviour of controls and views that Xamarin.Forms brings out of the box.
 
 For example, we could change the way Xamarin.Forms renders images on iOS and extend the default `ImageRenderer` by a functionality that draws images in circles by default. For this, add a new class `CustomImageRenderer` to the `Conference.Forms.iOS` project and let it derive from `ImageRenderer`, which is the renderer that is used by Xamarin when using images according to [this list](https://developer.xamarin.com/guides/xamarin-forms/custom-renderer/renderers/).
@@ -119,10 +118,13 @@ After rebuilding the iOS application now and navigation to the `SpeakerDetailsPa
 
 ![Screenshots of the iOS with round profile image](../Misc/iosroundimagerenderer.png)
 
-#### 1.3.2 Create renderers for new controls
-If you tanke a look at the official list of iOS, Android and Windows controls, you will find only a small subset of this covered by Xamarin.Forms. This is simply because Xamarin.Forms needs a pendant for every other platform when offering a control for a specific one.
+### 2.3 Renderers for new controls
+If you tanke a look at the official list of iOS, Android and Windows controls, you will find only a small subset of these covered by Xamarin.Forms. This is simply because Xamarin.Forms needs implement the controls on all mobile platforms while abstracting the same functionality for each platform in the shared code.
 
-But sometimes, of course, you want to use controls that are only available on one platform and show an alternative for the other platform. The [Floating Action Button](https://material.io/guidelines/components/buttons-floating-action-button.html) on Android is a good example for that. As it is part of Android's design pattern, you might want to show the prime functionality in a Floating Action Button and all others in the menu bar. On iOS and Windows, this pattern does not exist, so we just want to create an Andropid-only control on the Android platform only.
+What is currently missing in Xamarin.Forms is a Hyperlink Button with basically is a clickable text. So let's go ahead and extend our project with such a button!
+
+### 2.4 Renderers for platform specific controls
+Sometimes of course, you want to use controls that are only available on one platform and show an alternative for the other platform. The [Floating Action Button](https://material.io/guidelines/components/buttons-floating-action-button.html) on Android is a good example for that. As it is part of Android's design pattern, you might want to show the prime functionality in a Floating Action Button and all others in the menu bar. On iOS and Windows, this pattern does not exist, so we just want to create an Andropid-only control on the Android platform only.
 
 
 ## 2. Platform specific functionality
