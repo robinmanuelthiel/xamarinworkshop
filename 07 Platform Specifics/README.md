@@ -15,7 +15,7 @@ Xamarin.Forms brings an easy way to give an UI element's properties different va
 <OnPlatform
     x:TypeArguments="<TYPE>"
     Android="<ANDROID_SPECIFIC_VALUE>"
-    WinPhone="<ANDROID_SPECIFIC_VALUE>"
+    WinPhone="<WINDOWS_SPECIFIC_VALUE>"
     iOS="<IOS_SPECIFIC_VALUE>" />
 ```
 
@@ -101,9 +101,10 @@ protected override void OnElementChanged (ElementChangedEventArgs<NativeListView
 ```
 
 ### 2.2 Extend existing renderers
-With custom renderers we can change the look and behaviour of controls and views that Xamarin.Forms brings out of the box.
+With custom renderers we can change the look and behaviour of controls and views that Xamarin.Forms brings out of the box. For example, we could change the way Xamarin.Forms renders images on iOS and extend the default `ImageRenderer` by a functionality that draws images in circles by default.
 
-For example, we could change the way Xamarin.Forms renders images on iOS and extend the default `ImageRenderer` by a functionality that draws images in circles by default. For this, add a new class `CustomImageRenderer` to the `Conference.Forms.iOS` project and let it derive from `ImageRenderer`, which is the renderer that is used by Xamarin when using images according to [this list](https://developer.xamarin.com/guides/xamarin-forms/custom-renderer/renderers/).
+#### 2.2.1 Create a Custom Image Renderer
+For this, add a new class `CustomImageRenderer` to the `Conference.Forms.iOS` project and let it derive from `ImageRenderer`, which is the renderer that is used by Xamarin when using images according to [this list](https://developer.xamarin.com/guides/xamarin-forms/custom-renderer/renderers/).
 
 Now we can override the `OnElementChanged` method, call `base.OnElementChanged(e);` method to call the default behaviour and extend it by the `CornerRadius`, which is used by iOS to create round images.
 
@@ -124,6 +125,7 @@ public class CustomImageRenderer : ImageRenderer
 }
 ```
 
+#### 2.2.1 Expose it to the framework
 Once we did this, the last thing we have to do is telling the Xamarin.Forms framework, that this is the new renderer to use, when it comes to an `Image`. This can be achieved by declaring the `ExportRenderer(Type FormsControl, Type Renderer)` assembly attribute to the namespace.
 
 ```csharp
@@ -143,6 +145,115 @@ After rebuilding the iOS application now and navigation to the `SpeakerDetailsPa
 If you tanke a look at the official list of iOS, Android and Windows controls, you will find only a small subset of these covered by Xamarin.Forms. This is simply because Xamarin.Forms needs implement the controls on all mobile platforms while abstracting the same functionality for each platform in the shared code.
 
 What is currently missing in Xamarin.Forms is a Hyperlink Button with basically is a clickable text. So let's go ahead and extend our project with such a button!
+
+#### 2.3.1 Create a new abstract control
+To introduce a completely new control to Xamarin.Forms, we have to describe it iside the shared *Conference.Forms* project first. For this, we simply add a new class `HyperlinkLabel` that derives from Xamarin.Forms' original `Label` control and offers an additional bindable property for the `Uri`.
+
+Some of the logic can be done in the shared code like setting the text color and reacting on touch events. But as Xamarin.Forms does not support underlining by default currently, we need to do this in costom renderers for our `HyperlinkLabel` control.
+
+```csharp
+namespace Conference.Forms.CustomControls
+{
+    public class HyperlinkLabel : Label
+    {
+        public static readonly BindableProperty UriProperty = BindableProperty.Create(nameof(Uri), typeof(string), typeof(HyperlinkLabel), null);
+        public string Uri
+        {
+            get { return (string)GetValue(UriProperty); }
+            set { SetValue(UriProperty, value); }
+        }
+
+        public HyperlinkLabel()
+        {
+            // Set text color
+            TextColor = Color.Accent;
+
+            // Underlining is set by custom renderers
+            // On Android and UWP only, as it is against the iOS design guidelines
+
+            // Add interaction
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += delegate
+            { 
+                if (Uri != null)
+                { 
+                    Device.OpenUri(new Uri(Uri)); 
+                }
+            };
+            GestureRecognizers.Add(tapGestureRecognizer);
+        }
+    }
+}
+```
+
+#### 2.3.2 Add the custom control to the UI
+To use the new control in XAML, simply add its namespace to the root element and add the element with the `namepsace:element` syntax. It has all `Label` properties plus the `Uri` property we added.
+
+```xml
+<ContentPage 
+    // ...
+    xmlns:custom="clr-namespace:Pollenalarm.Frontend.Forms.CustomRenderers">
+
+    <custom:HyperlinkLabel                    
+        Text="Xamarin Workshop"
+        Uri="https://github.com/robinmanuelthiel/xamarinworkshop" />
+</ContentPage>
+```
+
+#### 2.3.3 Implement the Custom Renderers for each platform
+Now it's time to create platform specific renderers for the `Hyperlinklabel` control to add the underlining. So let's add a `HyperlinkLabelRenderer` class to the platform projects and expose it to the framework by declaring the `ExportRenderer` assembly, right as we saw it before.
+
+This time, instead of exporting the renderer for an already existing Xamarin.Forms control, we export it for the `HyperlinkLabel` we created by ourselves.
+
+```csharp
+[assembly: ExportRenderer(typeof(HyperlinkLabel), typeof(HyperlinkLabelRenderer))]
+```
+
+
+**iOS**
+
+Underlining hyperlinks is against Apple's design guidelines, so we won't do this on the iOS platform. As this is the only thing, we are doing in our custom renderer at the moment, we can omit it.
+
+**Android**
+```csharp
+public class HyperlinkLabelRenderer : LabelRenderer
+{
+    protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
+    {
+        base.OnElementChanged(e);
+
+        if (e.NewElement != null)
+        {                
+            // Set TextView underlining
+            Control.PaintFlags |= Android.Graphics.PaintFlags.UnderlineText;                
+        }
+    }
+}
+```
+
+**UWP**
+```csharp
+public class HyperlinkLabelRenderer : LabelRenderer
+{
+    protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
+    {
+        base.OnElementChanged(e);
+
+        if (e.NewElement != null)
+        {
+            // Set TextView underlining
+            var underlinedText = new Underline();
+            underlinedText.Inlines.Add(new Run { Text = Control.Text });
+            Control.Text = string.Empty;
+            Control.Inlines.Add(underlinedText);                
+        }
+    }
+}
+```
+
+ADD TASK TO ADD AN ABOUT PAGE WITH HYPERLINK BUTTON
+
+ADD SCREENSHOTS HERE
 
 ### 2.4 Renderers for platform specific controls
 Sometimes of course, you want to use controls that are only available on one platform and show an alternative for the other platform. The [Floating Action Button](https://material.io/guidelines/components/buttons-floating-action-button.html) on Android is a good example for that. As it is part of Android's design pattern, you might want to show the prime functionality in a Floating Action Button and all others in the menu bar. On iOS and Windows, this pattern does not exist, so we just want to create an Andropid-only control on the Android platform only.
