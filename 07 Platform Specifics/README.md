@@ -79,6 +79,27 @@ Creating custom rendereders always follows the same steps
 1. Override the `OnElementChanged` method
 1. Expose the renderer to the Xamarin.Forms framework using `ExportRenderer`
 
+Most renderer classes expose the `OnElementChanged` method, which is called when a Xamarin.Forms custom control is created in order to render the corresponding native control. Custom renderer classes, in each platform-specific renderer class, then override this method in order to instantiate and customize the native control. However, in some circumstances the `OnElementChanged` method can be called multiple times, and so care must be taken when instantiating a new native control in order to prevent memory leaks.
+
+```csharp
+protected override void OnElementChanged (ElementChangedEventArgs<NativeListView> e)
+{
+    base.OnElementChanged (e);
+
+    if (Control == null) {
+        // Instantiate the native control
+    }
+
+    if (e.OldElement != null) {
+        // Unsubscribe from event handlers and cleanup any resources
+    }
+
+    if (e.NewElement != null) {
+        // Configure the control and subscribe to event handlers
+    }
+}
+```
+
 ### 2.2 Extend existing renderers
 With custom renderers we can change the look and behaviour of controls and views that Xamarin.Forms brings out of the box.
 
