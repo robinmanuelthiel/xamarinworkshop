@@ -5,14 +5,20 @@
     xmlns:local="clr-namespace:Conference"
     Title="Conference">
 
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="AboutToolbarItem"
+            Clicked="AboutToolbarItem_Clicked"
+            Icon="About.png"
+            Text="About" />
+    </TabbedPage.ToolbarItems>
+
     <!-- Sessions Tab -->
     <ContentPage Title="Sessions">
-        <ListView ItemsSource="{Binding Sessions}" ItemSelected="Session_ItemSelected">
+        <ListView ItemSelected="Session_ItemSelected" ItemsSource="{Binding Sessions}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell                        
-                        Detail="{Binding Room}"
-                        Text="{Binding Name}" />
+                    <TextCell Detail="{Binding Room}" Text="{Binding Name}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -20,7 +26,7 @@
 
     <!-- Speakers Tab -->
     <ContentPage Title="Speakers">
-        <ListView ItemsSource="{Binding Speakers}" ItemSelected="Speaker_ItemSelected">
+        <ListView ItemSelected="Speaker_ItemSelected" ItemsSource="{Binding Speakers}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ImageCell

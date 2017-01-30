@@ -3,9 +3,10 @@ using Conference.Forms.iOS;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Conference.Forms.iOS.CustomRenderers;
 
 [assembly: ExportRenderer(typeof(Xamarin.Forms.Image), typeof(CustomImageRenderer))]
-namespace Conference.Forms.iOS
+namespace Conference.Forms.iOS.CustomRenderers
 {
 	public class CustomImageRenderer : ImageRenderer
 	{

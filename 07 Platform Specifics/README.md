@@ -210,11 +210,11 @@ This time, instead of exporting the renderer for an already existing Xamarin.For
 ```
 
 
-**iOS**
+**iOS implementation**
 
 Underlining hyperlinks is against Apple's design guidelines, so we won't do this on the iOS platform. As this is the only thing, we are doing in our custom renderer at the moment, we can omit it.
 
-**Android**
+**Android implementation**
 ```csharp
 public class HyperlinkLabelRenderer : LabelRenderer
 {
@@ -231,7 +231,7 @@ public class HyperlinkLabelRenderer : LabelRenderer
 }
 ```
 
-**UWP**
+**UWP implementation**
 ```csharp
 public class HyperlinkLabelRenderer : LabelRenderer
 {
@@ -251,9 +251,9 @@ public class HyperlinkLabelRenderer : LabelRenderer
 }
 ```
 
-ADD TASK TO ADD AN ABOUT PAGE WITH HYPERLINK BUTTON
+We can use the new control to create a link to this workshop for example. For this, why don't we add an *About* page with some information and add it the app's toolbar? Should be an easy task now, if you need some guidance, take a look at the [finished code](/Code).
 
-ADD SCREENSHOTS HERE
+![Custom Hyperlink Renderer Screenshots](../Misc/customhyperlinkrendererscreenshots.png)
 
 ### 2.4 Renderers for platform specific controls
 Sometimes of course, you want to use controls that are only available on one platform and show an alternative for the other platform. The [Floating Action Button](https://material.io/guidelines/components/buttons-floating-action-button.html) on Android is a good example for that. As it is part of Android's design pattern, you might want to show the prime functionality in a Floating Action Button and all others in the menu bar. On iOS and Windows, this pattern does not exist, so we just want to create an Andropid-only control on the Android platform only.
