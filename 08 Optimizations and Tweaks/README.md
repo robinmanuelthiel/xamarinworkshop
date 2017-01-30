@@ -90,16 +90,6 @@ It might feel a little bit like black magic, but once this pattern is understood
 ### Tab icons on iOS (only)
 As you might have noticed, the tabs at the bottom of iOS applications usually have icons that our app is missing. And even in Android, tabs can have icons. We can add a tab icon by settings the `Icon` property of a `ContentPage`. But as they can look a little bit weird on Android, let's only add them on iOS and write our first platform-specific UI decision.
 
-In XAML, we can define platform-specific values with the `OnPlatform` tag.
-
-```xml
- <OnPlatform
-    x:TypeArguments="<TYPE>"
-    Android="<ANDROID_SPECIFIC_VALUE>"
-    WinPhone="<ANDROID_SPECIFIC_VALUE>"
-    iOS="<IOS_SPECIFIC_VALUE>" />
-```
-
 Let's use this to set the `Icon` property for iOS only and extend the `MainPage.xaml` file from the Xamarin.Forms project.
 
 ```xml
@@ -131,3 +121,41 @@ Let's use this to set the `Icon` property for iOS only and extend the `MainPage.
 Add the Icons, you can [find attached](/Icons) to the ***Resources*** folder of your iOS project. As the other platforms `Icon` property is set to an empty string, they will ignore the `Icon` property automatically.
 
 > **Hint:** If we had defined the `Icon` the standard way like `<ContentPage Icon="Calendar.png">`, all platforms have to hold the image files in their projects.
+
+
+## Performance
+When it comes to performance, Xamarin.Forms needs a very clean architecture and some extra considerations regarding memory management, threading and garbage collection. So let's take a look at what we can do, to enhance your application's performance.
+
+### XAML compilation
+Layouts defined in XAML get rendered at runtime by default. That can cause massive performance drains as the XAML code gets parsed the moment the user should actually see the page. Fortunately, Xamarin offers XAML pre-compilation called **XAMLC**. This can be enabled application wide by registering the `XamlCompilation` assembly to the main namespace or can be opted in our out for each view using the `XamlCompilation` attribute for the class.
+
+To enable XAMLC at the assembly level, register the assembly inside your `App.xaml.cs` file.
+
+```csharp
+using Xamarin.Forms.Xaml;
+
+// ...
+
+[assembly: XamlCompilation (XamlCompilationOptions.Compile)]
+namespace Conference.Forms
+{
+    public partial class App : Application
+    {
+        // ...
+    }
+}
+```
+
+For a view specific XAML compilation, add the `XamlCompilation` attribute to the regarding class.
+
+```csharp
+using Xamarin.Forms.Xaml;
+
+// ...
+
+[XamlCompilation (XamlCompilationOptions.Compile)]
+public class HomePage : ContentPage
+{
+    // ...
+}
+```
