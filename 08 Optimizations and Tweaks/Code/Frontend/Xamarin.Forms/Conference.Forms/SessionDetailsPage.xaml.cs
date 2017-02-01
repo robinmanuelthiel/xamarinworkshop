@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Conference.Core;
 using Conference.Frontend;
-using Xamarin.Forms;
 using GalaSoft.MvvmLight.Ioc;
+using Xamarin.Forms;
 
 namespace Conference.Forms
 {
@@ -15,10 +15,18 @@ namespace Conference.Forms
 		{
 			InitializeComponent();
 
-            // Get ViewModel from IoC Container
-            viewModel = SimpleIoc.Default.GetInstance<SessionDetailsViewModel>();
-            viewModel.CurrentSession = session;
+			viewModel = SimpleIoc.Default.GetInstance<SessionDetailsViewModel>();
+			viewModel.CurrentSession = session;
 			BindingContext = viewModel;
 		}
-	}
+
+        protected override void OnAppearing()
+        {
+			var textToSpeechImpl = DependencyService.Get<ITextToSpeech>();
+            if (textToSpeechImpl != null)
+            {
+                textToSpeechImpl.Speak(viewModel.CurrentSession.Name);
+            }
+        }
+    }
 }

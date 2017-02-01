@@ -218,16 +218,20 @@ Underlining hyperlinks is against Apple's design guidelines, so we won't do this
 
 **Android implementation**
 ```csharp
-public class HyperlinkLabelRenderer : LabelRenderer
+[assembly: ExportRenderer(typeof(HyperlinkLabel), typeof(HyperlinkLabelRenderer))]
+namespace Conference.Forms.Droid.CustomRenderers
 {
-    protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
+    public class HyperlinkLabelRenderer : LabelRenderer
     {
-        base.OnElementChanged(e);
+        protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
+        {
+            base.OnElementChanged(e);
 
-        if (e.NewElement != null)
-        {                
-            // Set TextView underlining
-            Control.PaintFlags |= Android.Graphics.PaintFlags.UnderlineText;                
+            if (e.NewElement != null)
+            {
+                // Set TextView underlining
+                Control.PaintFlags |= Android.Graphics.PaintFlags.UnderlineText;
+            }
         }
     }
 }
@@ -235,19 +239,23 @@ public class HyperlinkLabelRenderer : LabelRenderer
 
 **UWP implementation**
 ```csharp
-public class HyperlinkLabelRenderer : LabelRenderer
+[assembly: ExportRenderer(typeof(HyperlinkLabel), typeof(HyperlinkLabelRenderer))]
+namespace Conference.Forms.UWP.CustomRenderers
 {
-    protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
+    class HyperlinkLabelRenderer : LabelRenderer
     {
-        base.OnElementChanged(e);
-
-        if (e.NewElement != null)
+        protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
         {
-            // Set TextView underlining
-            var underlinedText = new Underline();
-            underlinedText.Inlines.Add(new Run { Text = Control.Text });
-            Control.Text = string.Empty;
-            Control.Inlines.Add(underlinedText);                
+            base.OnElementChanged(e);
+
+            if (e.NewElement != null)
+            {
+                // Set TextView underlining
+                var underlinedText = new Underline();
+                underlinedText.Inlines.Add(new Run { Text = Control.Text });
+                Control.Text = string.Empty;
+                Control.Inlines.Add(underlinedText);
+            }
         }
     }
 }
@@ -287,10 +295,6 @@ Similar to custom renderers, the class has to register a `Xamarin.Forms.Dependen
 
 **iOS implementation**
 ```csharp
-using AVFoundation;
-using Conference.Forms.iOS;
-using Conference.Frontend;
-
 [assembly: Xamarin.Forms.Dependency(typeof(TextToSpeechiOS))]
 namespace Conference.Forms.iOS
 {
@@ -308,10 +312,6 @@ namespace Conference.Forms.iOS
 
 **Android implementation**
 ```csharp
-using Android.Speech.Tts;
-using Conference.Frontend;
-using Conference.Forms.Droid;
-
 [assembly: Xamarin.Forms.Dependency(typeof(TextToSpeechAndroid))]
 namespace Conference.Forms.Droid
 {
@@ -337,12 +337,6 @@ namespace Conference.Forms.Droid
 
 **UWP implementation**
 ```csharp
-using System;
-using Windows.Media.SpeechSynthesis;
-using Windows.UI.Xaml.Controls;
-using Conference.Frontend;
-using Conference.Forms.UWP;
-
 [assembly: Xamarin.Forms.Dependency(typeof(TextToSpeechUWP))]
 namespace Conference.Forms.UWP
 {

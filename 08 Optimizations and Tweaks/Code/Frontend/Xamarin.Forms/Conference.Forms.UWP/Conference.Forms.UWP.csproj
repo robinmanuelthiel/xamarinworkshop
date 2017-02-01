@@ -96,10 +96,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomRenderers\HyperlinkLabelRenderer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextToSpeechUWP.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -108,6 +110,7 @@
     <None Include="Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="About.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -128,6 +131,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Conference.Frontend.csproj">
+      <Project>{1cf6fbe3-1f39-43b1-8c91-a203cd44a934}</Project>
+      <Name>Conference.Frontend</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Conference.Forms\Conference.Forms.csproj">
       <Project>{f90fec10-353c-4800-b07a-796cef1fc60e}</Project>
       <Name>Conference.Forms</Name>
