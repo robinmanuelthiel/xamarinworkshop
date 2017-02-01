@@ -110,6 +110,7 @@
     <ITunesArtwork Include="iTunesArtwork@2x" />
     <None Include="packages.config" />
     <Compile Include="CustomRenderers\CustomImageRenderer.cs" />
+    <Compile Include="TextToSpeechiOS.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -176,6 +177,10 @@
     <ProjectReference Include="..\Conference.Forms\Conference.Forms.csproj">
       <Project>{f90fec10-353c-4800-b07a-796cef1fc60e}</Project>
       <Name>Conference.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Conference.Frontend.csproj">
+      <Project>{1CF6FBE3-1F39-43B1-8C91-A203CD44A934}</Project>
+      <Name>Conference.Frontend</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

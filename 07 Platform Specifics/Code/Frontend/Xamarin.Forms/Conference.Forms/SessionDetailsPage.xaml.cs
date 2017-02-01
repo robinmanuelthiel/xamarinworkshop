@@ -17,5 +17,14 @@ namespace Conference.Forms
 			viewModel.CurrentSession = session;
 			BindingContext = viewModel;
 		}
-	}
+
+        protected override void OnAppearing()
+        {
+			var textToSpeechImpl = DependencyService.Get<ITextToSpeech>();
+            if (textToSpeechImpl != null)
+            {
+                textToSpeechImpl.Speak(viewModel.CurrentSession.Name);
+            }
+        }
+    }
 }

@@ -260,3 +260,131 @@ Sometimes of course, you want to use controls that are only available on one pla
 
 
 ## 2. Platform specific functionality
+Beside UI elements, you will can also define platform specific behaviours in your business logic. There might be scenarios, where you want to use features, that are only available on specific plaforms, like *Widgets on Android* or *Live Tiles on Windows*. These things can't be covered in shared logic, of course.
+
+Additionally, there are many things that simply get handled differently on the plaforms. Access to the local storage for example is something that every platform can do, but the native APIs for that differ dramatically. Xamarin.Forms does already cover some basic behaviours and offer abstractions for that like displaying alerts with the `DisplayAlert`. Although the Xamarin community also offers a lot of [Community Provided Open Source Plugins](https://github.com/xamarin/XamarinComponents), you sometimes come to the point where you want to create your very own implementation of a specific behaviour on platform level.
+
+Let's take the **Text-To-Speech** functionality as an example. Text-To-Speech is something, that every platform offers, but there is no Xamarin.Forms implementation for it that abstracts the logic for us. So let's create our own platform specific implemetations for that!
+
+### 2.1 Create an interface
+First, we need to define an abstraction of the logic we want to provide on the shared code level. Similar to the last time, create an `ITextToSpeech` interface inside the shared **Conference.Frontend** project and define a single `Speak(string)` method that every implementation of the interface has to define.
+
+```csharp
+public interface ITextToSpeech
+{
+    void Speak(string text);
+}
+```
+
+### 2.2 Implement the interface on platform level
+The logic for the `Speak` method uses the platform's speech APIs of iOS, Android and UWP and has to be implemented inside the according projects. Here we create a new class like that implements the `ITextToSpeech` interface and uses the platform's APIs there.
+
+Similar to custom renderers, the class has to register a `Xamarin.Forms.Dependency` assembly to tell the framework that this a dependency that resolves the `ITextToSpeech` interface.
+
+```csharp
+[assembly: Xamarin.Forms.Dependency (typeof (YourPlatformImplClass))]
+```
+
+> **Hint:** As we implemented the `ITextToSpeech` interface inside the **Conference.Frontend** project, make sure that the platform projects **Conference.Forms.iOS**, **Conference.Forms.Droid** and **Conference.Forms.UWP** all reference this project to get access to the interface.
+
+**iOS implementation**
+```csharp
+using AVFoundation;
+using Conference.Forms.iOS;
+using Conference.Frontend;
+
+[assembly: Xamarin.Forms.Dependency(typeof(TextToSpeechiOS))]
+namespace Conference.Forms.iOS
+{
+    public class TextToSpeechiOS : ITextToSpeech
+    {
+        public void Speak(string text)
+        {
+            var speechSynthesizer = new AVSpeechSynthesizer();
+            var speechUtterance = new AVSpeechUtterance(text);
+            speechSynthesizer.SpeakUtterance(speechUtterance);
+        }
+    }
+}
+```
+
+**Android implementation**
+```csharp
+using Android.Speech.Tts;
+using Conference.Frontend;
+using Conference.Forms.Droid;
+
+[assembly: Xamarin.Forms.Dependency(typeof(TextToSpeechAndroid))]
+namespace Conference.Forms.Droid
+{
+    public class TextToSpeechAndroid : Java.Lang.Object, ITextToSpeech, TextToSpeech.IOnInitListener
+    {
+        TextToSpeech speaker;
+        string toSpeak;
+
+        public void Speak(string text)
+        {
+            toSpeak = text;
+            speaker = new TextToSpeech(Xamarin.Forms.Forms.Context, this);
+        }
+
+        public void OnInit(OperationResult status)
+        {
+            if (status.Equals(OperationResult.Success))
+                speaker.Speak(toSpeak, QueueMode.Flush, null, null);
+        }
+    }
+}
+```
+
+**UWP implementation**
+```csharp
+using System;
+using Windows.Media.SpeechSynthesis;
+using Windows.UI.Xaml.Controls;
+using Conference.Frontend;
+using Conference.Forms.UWP;
+
+[assembly: Xamarin.Forms.Dependency(typeof(TextToSpeechUWP))]
+namespace Conference.Forms.UWP
+{
+    public class TextToSpeechUWP : ITextToSpeech
+    {
+        public async void Speak(string text)
+        {
+            MediaElement mediaElement = new MediaElement();
+            var synth = new Windows.Media.SpeechSynthesis.SpeechSynthesizer();
+            SpeechSynthesisStream stream = await synth.SynthesizeTextToStreamAsync(text);
+            mediaElement.SetSource(stream, stream.ContentType);
+            mediaElement.Play();
+        }
+    }
+}
+```
+
+### 2.3 Call the implementaion in shared code
+Now that every platform has its own implementation of the `ITextToSpeech` interface, we can call these implementations in the shared code. For this, we use the [`DependencyService`](https://developer.xamarin.com/guides/xamarin-forms/dependency-service/) class, that comes with Xamarin.Forms and is able to locate implementations of interfaces in the platform projects, after they have been registered through the `Xamarin.Forms.Dependency` assembly.
+
+Let's add the Speech-To-Text feature to our `SessionDetailsPage.xaml.cs` and let it speak out the session title, whenever the user navigates to it! To perform actions, when the user navigates to a page, we can override the `OnAppearing()` method.
+
+```csharp
+protected override void OnAppearing()
+{
+    // ...
+}
+```
+
+Here we can try to get the platform specific implementation of `ITextToSpeech` by calling the `DependencyService.Get<Type>()` method. If we found an implementation, we can call its `Speak(string)` method to let the app read the text.
+
+```csharp
+protected override void OnAppearing()
+{
+    var textToSpeechImpl = DependencyService.Get<ITextToSpeech>();
+    if (textToSpeechImpl != null)
+    {
+        textToSpeechImpl.Speak(viewModel.CurrentSession.Name);
+    }
+}
+```
+
+This enables us to use platform specific logic in shared frontend logic.

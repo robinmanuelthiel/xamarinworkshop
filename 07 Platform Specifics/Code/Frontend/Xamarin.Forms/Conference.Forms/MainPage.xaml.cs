@@ -10,27 +10,27 @@ using Conference.Core;
 
 namespace Conference.Forms
 {
-    public partial class MainPage : TabbedPage
-    {
-        private MainViewModel viewModel;
+	public partial class MainPage : TabbedPage
+	{
+		private MainViewModel viewModel;
 
-        public MainPage()
-        {
-            InitializeComponent();
+		public MainPage()
+		{
+			InitializeComponent();
 
-            var httpService = new FormsHttpService();
+			var httpService = new FormsHttpService();
 			//var conferenceService = new HttpConferenceService(httpService);
 			var conferenceService = new AzureConferenceService();
-            viewModel = new MainViewModel(conferenceService);
+			viewModel = new MainViewModel(conferenceService);
 
-            BindingContext = viewModel;
-        }
+			BindingContext = viewModel;
+		}
 
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-            await viewModel.RefreshAsync();
-        }
+		protected override async void OnAppearing()
+		{
+			base.OnAppearing();
+			await viewModel.RefreshAsync();
+		}
 
 		private async void Session_ItemSelected(object sender, Xamarin.Forms.SelectedItemChangedEventArgs e)
 		{
@@ -60,9 +60,9 @@ namespace Conference.Forms
 			(sender as ListView).SelectedItem = null;
 		}
 
-        private async void AboutToolbarItem_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new AboutPage());
-        }
-    }
+		private async void AboutToolbarItem_Clicked(object sender, EventArgs e)
+		{
+			await Navigation.PushAsync(new AboutPage());
+		}
+	}
 }
