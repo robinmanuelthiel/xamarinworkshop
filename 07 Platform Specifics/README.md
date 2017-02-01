@@ -1,6 +1,9 @@
 # Platform Specifics
+Xamarin and especially Xamarin.Forms are cross-platform frameworks that you mostly target multiple platforms with. Of course, these platforms do still have their specific behaviours and characteristics, that you also want to support. This chapter is about how to achieve that.
 
 ## 1. Platform specific UI properties
+First thing that comes in mind when talking about platform specifics is often the UI that fundamentally differs between the platforms.
+
 ### 1.1 Platform specific properties in XAML and code-behind
 When creating a shared UI with Xamarin.Forms, we might come to a point, where we want to adjust specific properties of these UIs regarding to the platform it runs on. Typical platform adjustments can be
 
@@ -45,10 +48,10 @@ This pattern can be used for every property of every UI element in Xamarin.Forms
 Device.OnPlatform(iOS: () => TestButton.Margin = new Thickness(14));
 ```
 
-### 1.2 Platform specific styles
+### 1.2 Platform specific styling
 Beside the XAML UI in Xamarin.Forms, you can also always access the platform projects directly and modify the UI there. Remember, that everything we define in XAML will be rendered to **native** UI elements for the platforms.
 
-As you might have noticed, the Android app does have a blue navigation bar by default, while the iOS one's is gray. Xamarin.Forms does not support navigation bar colors by now, but we can still define colors for the `UINavigationBar` the traditional way.
+As you might have noticed, the Android app does have a blue navigation bar by default, while the iOS one's is grey. Xamarin.Forms does not support navigation bar colors by now, but we can still define colors for the `UINavigationBar` the traditional way.
 
 ![Screenshots of the iOS app before and after the color change](../Misc/iosnavigationbarcolor.png)
 
@@ -72,7 +75,7 @@ public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsAppli
 ## 2. Custom Renderers
 Actually, everything that Xamarin.Forms does when creating native controls out of the XAML definition is using one of its [Renderer Base Classes](https://developer.xamarin.com/guides/xamarin-forms/custom-renderer/renderers/). These renderers turn XAML into native controls on each platform and they can be extended.
 
-Creating custom rendereders always follows the same steps
+Creating custom renderers always follows the same steps
 
 1. Create a renderer class inside the platform project(s)
 1. Derive from [Renderer Base Class](https://developer.xamarin.com/guides/xamarin-forms/custom-renderer/renderers/)
@@ -142,14 +145,14 @@ After rebuilding the iOS application now and navigation to the `SpeakerDetailsPa
 ![Screenshots of the iOS with round profile image](../Misc/iosroundimagerenderer.png)
 
 ### 2.3 Renderers for new controls
-If you tanke a look at the official list of iOS, Android and Windows controls, you will find only a small subset of these covered by Xamarin.Forms. This is simply because Xamarin.Forms needs implement the controls on all mobile platforms while abstracting the same functionality for each platform in the shared code.
+If you take a look at the official list of iOS, Android and Windows controls, you will find only a small subset of these covered by Xamarin.Forms. This is simply because Xamarin.Forms needs implement the controls on all mobile platforms while abstracting the same functionality for each platform in the shared code.
 
 What is currently missing in Xamarin.Forms is a Hyperlink Button with basically is a clickable text. So let's go ahead and extend our project with such a button!
 
 #### 2.3.1 Create a new abstract control
-To introduce a completely new control to Xamarin.Forms, we have to describe it iside the shared *Conference.Forms* project first. For this, we simply add a new class `HyperlinkLabel` that derives from Xamarin.Forms' original `Label` control and offers an additional bindable property for the `Uri`.
+To introduce a completely new control to Xamarin.Forms, we have to describe it inside the shared *Conference.Forms* project first. For this, we simply add a new class `HyperlinkLabel` that derives from Xamarin.Forms' original `Label` control and offers an additional bindable property for the `Uri`.
 
-Some of the logic can be done in the shared code like setting the text color and reacting on touch events. But as Xamarin.Forms does not support underlining by default currently, we need to do this in costom renderers for our `HyperlinkLabel` control.
+Some of the logic can be done in the shared code like setting the text color and reacting on touch events. But as Xamarin.Forms does not support underlining by default currently, we need to do this in custom renderers for our `HyperlinkLabel` control.
 
 ```csharp
 namespace Conference.Forms.CustomControls
@@ -209,7 +212,6 @@ This time, instead of exporting the renderer for an already existing Xamarin.For
 [assembly: ExportRenderer(typeof(HyperlinkLabel), typeof(HyperlinkLabelRenderer))]
 ```
 
-
 **iOS implementation**
 
 Underlining hyperlinks is against Apple's design guidelines, so we won't do this on the iOS platform. As this is the only thing, we are doing in our custom renderer at the moment, we can omit it.
@@ -255,18 +257,14 @@ We can use the new control to create a link to this workshop for example. For th
 
 ![Custom Hyperlink Renderer Screenshots](../Misc/customhyperlinkrendererscreenshots.png)
 
-### 2.4 Renderers for platform specific controls
-Sometimes of course, you want to use controls that are only available on one platform and show an alternative for the other platform. The [Floating Action Button](https://material.io/guidelines/components/buttons-floating-action-button.html) on Android is a good example for that. As it is part of Android's design pattern, you might want to show the prime functionality in a Floating Action Button and all others in the menu bar. On iOS and Windows, this pattern does not exist, so we just want to create an Andropid-only control on the Android platform only.
+## 3. Platform specific functionality
+Beside UI elements, you will can also define platform specific behaviours in your business logic. There might be scenarios, where you want to use features, that are only available on specific platforms, like *Widgets on Android* or *Live Tiles on Windows*. These things can't be covered in shared logic, of course.
 
+Additionally, there are many things that simply get handled differently on the platforms. Access to the local storage for example is something that every platform can do, but the native APIs for that differ dramatically. Xamarin.Forms does already cover some basic behaviours and offer abstractions for that like displaying alerts with the `DisplayAlert`. Although the Xamarin community also offers a lot of [Community Provided Open Source Plugins](https://github.com/xamarin/XamarinComponents), you sometimes come to the point where you want to create your very own implementation of a specific behaviour on platform level.
 
-## 2. Platform specific functionality
-Beside UI elements, you will can also define platform specific behaviours in your business logic. There might be scenarios, where you want to use features, that are only available on specific plaforms, like *Widgets on Android* or *Live Tiles on Windows*. These things can't be covered in shared logic, of course.
+Let's take the **Text-To-Speech** functionality as an example. Text-To-Speech is something, that every platform offers, but there is no Xamarin.Forms implementation for it that abstracts the logic for us. So let's create our own platform specific implementations for that!
 
-Additionally, there are many things that simply get handled differently on the plaforms. Access to the local storage for example is something that every platform can do, but the native APIs for that differ dramatically. Xamarin.Forms does already cover some basic behaviours and offer abstractions for that like displaying alerts with the `DisplayAlert`. Although the Xamarin community also offers a lot of [Community Provided Open Source Plugins](https://github.com/xamarin/XamarinComponents), you sometimes come to the point where you want to create your very own implementation of a specific behaviour on platform level.
-
-Let's take the **Text-To-Speech** functionality as an example. Text-To-Speech is something, that every platform offers, but there is no Xamarin.Forms implementation for it that abstracts the logic for us. So let's create our own platform specific implemetations for that!
-
-### 2.1 Create an interface
+### 3.1 Create an interface
 First, we need to define an abstraction of the logic we want to provide on the shared code level. Similar to the last time, create an `ITextToSpeech` interface inside the shared **Conference.Frontend** project and define a single `Speak(string)` method that every implementation of the interface has to define.
 
 ```csharp
@@ -276,7 +274,7 @@ public interface ITextToSpeech
 }
 ```
 
-### 2.2 Implement the interface on platform level
+### 3.2 Implement the interface on platform level
 The logic for the `Speak` method uses the platform's speech APIs of iOS, Android and UWP and has to be implemented inside the according projects. Here we create a new class like that implements the `ITextToSpeech` interface and uses the platform's APIs there.
 
 Similar to custom renderers, the class has to register a `Xamarin.Forms.Dependency` assembly to tell the framework that this a dependency that resolves the `ITextToSpeech` interface.
@@ -362,7 +360,7 @@ namespace Conference.Forms.UWP
 }
 ```
 
-### 2.3 Call the implementaion in shared code
+### 3.3 Call the implementaion in shared code
 Now that every platform has its own implementation of the `ITextToSpeech` interface, we can call these implementations in the shared code. For this, we use the [`DependencyService`](https://developer.xamarin.com/guides/xamarin-forms/dependency-service/) class, that comes with Xamarin.Forms and is able to locate implementations of interfaces in the platform projects, after they have been registered through the `Xamarin.Forms.Dependency` assembly.
 
 Let's add the Speech-To-Text feature to our `SessionDetailsPage.xaml.cs` and let it speak out the session title, whenever the user navigates to it! To perform actions, when the user navigates to a page, we can override the `OnAppearing()` method.
@@ -387,4 +385,4 @@ protected override void OnAppearing()
 }
 ```
 
-This enables us to use platform specific logic in shared frontend logic.
+This pattern enables us to use platform specific logic in shared frontend code, by simply abstracting functionality in interfaces that get implemented inside the platform projects.
