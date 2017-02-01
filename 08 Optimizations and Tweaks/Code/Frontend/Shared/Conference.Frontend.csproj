@@ -45,6 +45,7 @@
     <Compile Include="SessionDetailsViewModel.cs" />
     <Compile Include="SpeakerDetailsViewModel.cs" />
     <Compile Include="IConferenceService.cs" />
+    <Compile Include="ITextToSpeech.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Conference.Core\Conference.Core.csproj">

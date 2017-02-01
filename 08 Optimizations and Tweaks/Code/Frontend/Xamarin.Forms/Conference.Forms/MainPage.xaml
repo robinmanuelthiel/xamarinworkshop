@@ -5,23 +5,28 @@
     xmlns:local="clr-namespace:Conference"
     Title="Conference">
 
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem
+            x:Name="AboutToolbarItem"
+            Clicked="AboutToolbarItem_Clicked"
+            Icon="About.png"
+            Text="About" />
+    </TabbedPage.ToolbarItems>
+
     <!-- Sessions Tab -->
     <ContentPage Title="Sessions">
-        <ContentPage.Icon>
-            <OnPlatform
-                x:TypeArguments="FileImageSource"
-                Android=""
-                WinPhone=""
-                iOS="Calendar.png" />
-        </ContentPage.Icon>
-        <ListView
-            ItemSelected="Session_ItemSelected"
-            ItemsSource="{Binding Sessions}">
+		<ContentPage.Icon>
+	        <OnPlatform
+	            x:TypeArguments="FileImageSource"
+	            Android=""
+	            WinPhone=""
+	            iOS="Calendar.png" />
+	    </ContentPage.Icon>
+		
+        <ListView ItemSelected="Session_ItemSelected" ItemsSource="{Binding Sessions}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell
-                        Detail="{Binding Room}"
-                        Text="{Binding Name}" />
+                    <TextCell Detail="{Binding Room}" Text="{Binding Name}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -29,16 +34,15 @@
 
     <!-- Speakers Tab -->
     <ContentPage Title="Speakers">
-        <ContentPage.Icon>
-            <OnPlatform
-                x:TypeArguments="FileImageSource"
-                Android=""
-                WinPhone=""
-                iOS="Person.png" />
-        </ContentPage.Icon>
-        <ListView
-            ItemSelected="Speaker_ItemSelected"
-            ItemsSource="{Binding Speakers}">
+		<ContentPage.Icon>
+	        <OnPlatform
+	            x:TypeArguments="FileImageSource"
+	            Android=""
+	            WinPhone=""
+	            iOS="Person.png" />
+	    </ContentPage.Icon>
+		
+        <ListView ItemSelected="Speaker_ItemSelected" ItemsSource="{Binding Speakers}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ImageCell

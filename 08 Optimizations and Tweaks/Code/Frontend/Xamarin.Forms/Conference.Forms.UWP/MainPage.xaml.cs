@@ -24,7 +24,9 @@ namespace Conference.Forms.UWP
             this.InitializeComponent();
 
 			// Initialize Azure Mobile App Client for the current platform
-			CurrentPlatform.Init();
+			//CurrentPlatform.Init();
+
+
 
             LoadApplication(new Conference.Forms.App());
         }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Conference.Core;
 using Conference.Frontend;
-using Xamarin.Forms;
 using GalaSoft.MvvmLight.Ioc;
+using Xamarin.Forms;
 
 namespace Conference.Forms
 {
@@ -12,12 +12,10 @@ namespace Conference.Forms
 		private SpeakerDetailsViewModel viewModel;
 
 		public SpeakerDetailsPage(Speaker speaker)
-		{
+		{			
 			InitializeComponent();
-
-            // Get ViewModel from IoC Container
-            viewModel = SimpleIoc.Default.GetInstance<SpeakerDetailsViewModel>();
-            viewModel.CurrentSpeaker = speaker;
+			viewModel = SimpleIoc.Default.GetInstance<SpeakerDetailsViewModel>();
+			viewModel.CurrentSpeaker = speaker;
 			BindingContext = viewModel;
 		}
 	}
