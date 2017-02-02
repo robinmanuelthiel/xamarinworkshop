@@ -129,3 +129,73 @@ public MainPage()
 ```
 
 That's it. Now your app connects to the Azure backend instead of simply downloading the JSON files from the GitHub repository.
+
+## 3. Offline Synchronization
+One of the features that the **Azure Mobile Apps** bring out of the box and is super easy to implement is Offline Synchronization for your data.
+
+For this, the SDK comes with an SQLite database that can be spinned up easily and used for synchronization. There are only a few lines, we have to change in our `AzureConferenceService` to get it ready.
+
+Add [Azure Mobile SQLiteStore NuGet package](https://www.nuget.org/packages/Microsoft.Azure.Mobile.Client.SQLiteStore/).
+
+First, replace the `IMobileServiceTable<T>` with `IMobileServiceSyncTable<T>`.
+
+```csharp
+private IMobileServiceSyncTable<Session> sessionTable;
+private IMobileServiceSyncTable<Speaker> speakerTable;
+``` 
+
+Remove table inits from contructor
+
+Define Init Method
+
+```csharp
+public async Task InitAsync()
+{
+    if (client?.SyncContext?.IsInitialized ?? false)
+        return;
+
+    // Setup local database
+    var path = Path.Combine(MobileServiceClient.DefaultDatabasePath, "syncstore.db");
+    var store = new MobileServiceSQLiteStore(path);
+
+    // Define local tables to sync with
+    store.DefineTable<Session>();
+    store.DefineTable<Speaker>();
+
+    // Initialize SyncContext
+    await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
+
+    // Get our sync table that will call out to azure
+    sessionTable = client.GetSyncTable<Session>();
+    speakerTable = client.GetSyncTable<Speaker>();
+}
+```
+
+Create Sync methods
+
+```csharp
+public async Task SyncAsync()
+{
+    try
+    {
+        await client.SyncContext.PushAsync();
+        await sessionTable.PullAsync("allSessions", sessionTable.CreateQuery());
+        await speakerTable.PullAsync("allSpeakers", speakerTable.CreateQuery());
+    }
+    catch (Exception ex)
+    {
+        // Unable to sync speakers, that is alright as we have offline capabilities: " + ex);
+    }
+}
+```
+
+Extend existing `GetSessionsAsync()` and `GetSpeakersAsync()` methods with sync and initialization
+
+```csharp
+public async Task<List<Session>> GetSessionsAsync()
+{
+    await InitAsync();
+    await SyncAsync();
+    return await sessionTable.ToListAsync();
+}
+```
