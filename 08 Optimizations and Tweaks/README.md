@@ -161,3 +161,18 @@ public class HomePage : ContentPage
     // ...
 }
 ```
+
+## Avoid Resource Intensive Tasks on the UI Thread
+
+Change
+
+```csharp
+ _PollenList = JsonConvert.DeserializeObject<List<Pollen>>(result);
+```
+
+to 
+
+```csharp
+await Task.Factory.StartNew(() => _PollenList = JsonConvert.DeserializeObject<List<Pollen>>(result));
+```
+
