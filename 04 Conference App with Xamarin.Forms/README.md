@@ -456,7 +456,9 @@ public class FormsHttpService : IHttpService
 
 Theoretically, this class would also work inside the shared ***Conference.Frontend*** project and there would be no need to declare it inside ***Conference.Forms***. It does not rely on any plaform-specifics, as the `Microsoft.Net.Http` NuGet package provides an `HttpClient` implementation that is compatible for **every** .NET platform.
 
-But we want to go one step further here and extend this by using the **native** HTTP implementations, that each plaform brings per default. So we can choose between the .NET handling of HTTP or the Android and iOS one. For compatibility, we should use the last and add the [ModernHttpClient NuGet package](https://www.nuget.org/packages/modernhttpclient/) to our Xamarin.Forms project. It extends the .NET `HttpClient` with the native handlers and we can simply add it to the `FormsHttpService`.
+But we want to go one step further here and extend this by using the **native** HTTP implementations, that each platform brings per default. So we can choose between the .NET (Mono) implementation of HTTP or the native Android and iOS one. 
+
+As the native implementations are a bit more performant and support latest security features, I recommend to use them. The [ModernHttpClient NuGet package](https://www.nuget.org/packages/modernhttpclient/) makes it really easy for us to do so. Add it to the Xamarin.Forms project and pass the `HttpClient` of our `FormsHttpService` the native handler.
 
 ```csharp
 using ModernHttpClient;
