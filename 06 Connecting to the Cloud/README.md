@@ -133,7 +133,7 @@ That's it. Now your app connects to the Azure backend instead of simply download
 ## 3. Offline Synchronization
 One of the features that the **Azure Mobile Apps** bring out of the box and is super easy to implement is Offline Synchronization for your data.
 
-For this, the SDK comes with an SQLite database that can be spinned up easily and used for synchronization. There are only a few lines, we have to change in our `AzureConferenceService` to get it ready.
+For this, the SDK comes with an **SQLite** database that can be set up easily and used for synchronization. There are only a few lines, we have to change in our `AzureConferenceService` to get it ready.
 
 Add the [Azure Mobile SQLiteStore NuGet package](https://www.nuget.org/packages/Microsoft.Azure.Mobile.Client.SQLiteStore/) to the **Conference.Forms.Shared** and all the other **Conference.Forms.\*** platform projects. It brings SQLite to your projects together with a small set of easy to use APIs to connect your Azure Mobile Client with the database.
 
@@ -148,7 +148,7 @@ private IMobileServiceSyncTable<Speaker> speakerTable;
 ``` 
 
 ### 3.2 Setup and connect the local synchronization store
-Adding synchronization is quite easy and can be done with a few lines of code. For this, let's add an asynchronous `InitAsync()` mehtod, that does that. Inside, we need to follow five steps:
+Adding synchronization is quite easy and can be done with a few lines of code. For this, let's add an asynchronous `InitAsync()` method, that does that. Inside, we need to follow five steps:
 
 1. Check, if synchronization has already been initialized, as we don't want to do this more than once
 1. Setup the local SQLite database
@@ -190,7 +190,7 @@ await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
 
 It hands the local SQLite store over to the Mobile Service client together a default `MobileServiceSyncHandler`. The latter is the *merging strategy*. So whenever conflicts occur, this `MobileServiceSyncHandler` comes into play. The default one does a fairly good job, but you can implement your own one, when needed.
 
-### 3.3 Implement the actual syncronization
+### 3.3 Implement the actual synchronization
 Whenever the local or remote dataset changes and it is important for one of these sides to get the changes, we want to try to synchronize them. If this fails due to network problems for example, we can still use the local data and try syncing again when the connection comes available again.
 
 For this, we use the same mechanism that we use when synchronizing against a remote **Git repository**:
@@ -199,13 +199,13 @@ For this, we use the same mechanism that we use when synchronizing against a rem
 1. Get remote changes and merge them locally
 1. Push the merged changes to the remote
 
-Create a `SyncAsync()` method, that does exactly the last two steps. The syncronization method is not responible for commiting changes locally. To get remote changes, we can use the `PullAsync` method on a table.
+Create a `SyncAsync()` method, that does exactly the last two steps. The synchronization  method is not responsible for committing changes locally. To get remote changes, we can use the `PullAsync` method on a table.
 
 ```csharp
 await table.PullAsync(string id, Query itemsQuery)
 ```
 
-Providing an **Id** for the pull is super important. Azure will remember this Id together with the calling device and will only send changed datasets over the network. If you don't provide a consitent Id, the whole table will be synced every time.
+Providing an **Id** for the pull is super important. Azure will remember this Id together with the calling device and will only send changed datasets over the network. If you don't provide a consistent Id, the whole table will be synced every time.
 
 ```csharp
 public async Task SyncAsync()
@@ -227,9 +227,9 @@ public async Task SyncAsync()
 }
 ```
 
-### 3.4 Trigger syncronization
+### 3.4 Trigger synchronization
 
-As a last step, we should now extend existing `GetSessionsAsync()` and `GetSpeakersAsync()` methods with the initialization of the database if needed and the syncronization itself.
+As a last step, we should now extend existing `GetSessionsAsync()` and `GetSpeakersAsync()` methods with the initialization of the database if needed and the synchronization itself.
 
 ```csharp
 public async Task<List<Session>> GetSessionsAsync()
@@ -259,4 +259,4 @@ public async Task<List<Speaker>> GetSpeakersAsync()
 }
 ```
 
-Don't worry that the `InitAsync()` method is called everytime. As the first thing in there is checking, if initialization has already been done, we won't do it more than once and still make sure, that it is only called when needed.
+Don't worry that the `InitAsync()` method is called every time. As the first thing in there is checking, if initialization has already been done, we won't do it more than once and still make sure, that it is only called when needed.
