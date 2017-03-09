@@ -9,9 +9,14 @@ Installing Xamarin should be easy but the process varies on the different platfo
 ### On Windows
 When working on Windows, [Visual Studio](https://www.visualstudio.com/downloads/) will be the right IDE for you. You can check if you have a license for the paid versions or even go with the free Community Edition. Both will work for you.
 
-![Add Xamarin to Visual Studio installation Screenshot](../Misc/vsinstallxamarinfeatures.png)
+#### Visual Studio 2017
+Of course, you can use the brand new Visual Studio 2017 for Xamarin Development. For a quick guide on how to prepare it for Xamarin Development, please [follow this guide](http://motzcod.es/post/158155898027/setting-up-vs-2017-for-xamarin-dev)!
 
-You can select Xamarin from the ***Features*** list in the Visual Studio 2015 installer. Make sure, that the following features get installed:
+#### Visual Studio 2015
+When still using Visual Studio 2015, you can select Xamarin from the ***Features*** list in the installer.
+
+![Add Xamarin to Visual Studio installation Screenshot](../Misc/vsinstallxamarinfeatures.png)
+Make sure, that the following features get installed:
 - Windows and Web Development
   - Universal Windows App Development Tools
     - Tools and Windows 10 SDK
