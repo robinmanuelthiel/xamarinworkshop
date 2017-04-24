@@ -222,7 +222,7 @@ public async Task SyncAsync()
     catch (Exception ex)
     {
         // Unable to sync speakers, that is alright as we have offline capabilities
-        Debug.WriteLine("Unable to sync with backend." + ex)
+        Debug.WriteLine("Unable to sync with backend." + ex);
     }
 }
 ```
