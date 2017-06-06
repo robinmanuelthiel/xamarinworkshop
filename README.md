@@ -23,4 +23,4 @@ Creating workshops all on my own is now fun especially as I am far from being a 
 
 If you know something better, have a good idea, want to correct something or know a better teaching style please feel free to create a pull request. This workshop is getting better with every single contribution!
 
-Thank you  ❤️
+Thank you   ❤️
