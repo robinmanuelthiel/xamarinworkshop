@@ -96,11 +96,9 @@ Let's use this to set the `Icon` property for iOS only and extend the `MainPage.
 <!-- Sessions Tab -->
 <ContentPage Title="Sessions">
     <ContentPage.Icon>
-        <OnPlatform
-            x:TypeArguments="FileImageSource"
-            Android=""
-            WinPhone=""
-            iOS="Calendar.png" />
+        <OnPlatform x:TypeArguments="FileImageSource">
+            <On Platform="iOS">Calendar.png</On>
+        </OnPlatform>
     </ContentPage.Icon>
     <!-- ... -->
 </ContentPage>
@@ -108,11 +106,9 @@ Let's use this to set the `Icon` property for iOS only and extend the `MainPage.
 <!-- Speakers Tab -->
 <ContentPage Title="Speakers">
     <ContentPage.Icon>
-        <OnPlatform
-            x:TypeArguments="FileImageSource"
-            Android=""
-            WinPhone=""
-            iOS="Person.png" />
+        <OnPlatform x:TypeArguments="FileImageSource">
+            <On Platform="iOS">Person.png</On>
+        </OnPlatform>
     </ContentPage.Icon>
     <!-- ... -->
 </ContentPage>

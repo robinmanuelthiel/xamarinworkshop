@@ -16,11 +16,9 @@
     <!-- Sessions Tab -->
     <ContentPage Title="Sessions">
 		<ContentPage.Icon>
-	        <OnPlatform
-	            x:TypeArguments="FileImageSource"
-	            Android=""
-	            WinPhone=""
-	            iOS="Calendar.png" />
+	        <OnPlatform x:TypeArguments="FileImageSource">
+                <On Platform="iOS">Calendar.png</On>
+            </OnPlatform>
 	    </ContentPage.Icon>
 		
         <ListView ItemSelected="Session_ItemSelected" ItemsSource="{Binding Sessions}">
@@ -35,11 +33,9 @@
     <!-- Speakers Tab -->
     <ContentPage Title="Speakers">
 		<ContentPage.Icon>
-	        <OnPlatform
-	            x:TypeArguments="FileImageSource"
-	            Android=""
-	            WinPhone=""
-	            iOS="Person.png" />
+	        <OnPlatform x:TypeArguments="FileImageSource">
+                <On Platform="iOS">Person.png</On>
+            </OnPlatform>
 	    </ContentPage.Icon>
 		
         <ListView ItemSelected="Speaker_ItemSelected" ItemsSource="{Binding Speakers}">

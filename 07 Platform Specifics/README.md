@@ -12,14 +12,15 @@ When creating a shared UI with Xamarin.Forms, we might come to a point, where we
 - Layouting and Positioning
 - Font size
 
+> **Important:** You need to upgrade to Xamarin.Forms 2.3.4 for this!
+
 Xamarin.Forms brings an easy way to give an UI element's properties different values regarding to the platform it is running on: The `OnPlatform` tag.
 
 ```xml
-<OnPlatform
-    x:TypeArguments="<TYPE>"
-    Android="<ANDROID_SPECIFIC_VALUE>"
-    WinPhone="<WINDOWS_SPECIFIC_VALUE>"
-    iOS="<IOS_SPECIFIC_VALUE>" />
+<OnPlatform x:TypeArguments="<TYPE>">
+    <On Platform="Android, WinPhone">ANDROID+WINDOWS_SPECIFIC_VALUE</On>
+    <On Platform="iOS">IOS_SPECIFIC_VALUE</On>
+</OnPlatform>
 ```
 
 In XAML, we can use this tag to define platform specific values for each property. For example, instead of defining the `Margin` of a button like this
@@ -33,11 +34,10 @@ you can use the `OnPlatform` tag to do it for each platform.
 ```xml
 <Button Name="TestButton" Text="Click Me!">
     <Button.Margin>
-        <OnPlatform
-            x:TypeArguments="Thickness"
-            Android="14"
-            WinPhone="20"
-            iOS="20" />
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="Android">14</On>
+            <On Platform="iOS, WinPhone">20</On>
+        </OnPlatform>
     </Button.Margin
 </Button>
 ```
@@ -45,7 +45,17 @@ you can use the `OnPlatform` tag to do it for each platform.
 This pattern can be used for every property of every UI element in Xamarin.Forms. You can also call this in code-behind by using the `Device.OnPlatform` method, to declare platform specifics there.
 
 ```csharp
-Device.OnPlatform(iOS: () => TestButton.Margin = new Thickness(14));
+switch(Device.RuntimePlatform)
+{
+    default:
+    case Device.iOS:
+        TestButton.Margin = new Thickness(14);
+        break;
+    case Device.Android:        
+    case Device.WinPhone:
+        TestButton.Margin = new Thickness(20);
+        break;
+}
 ```
 
 ### 1.2 Platform specific styling
