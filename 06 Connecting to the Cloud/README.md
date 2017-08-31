@@ -219,7 +219,7 @@ public async Task SyncAsync()
         // Push local changes back to the remote
         await client.SyncContext.PushAsync();
     }
-    catch (Exception ex)
+    catch (HttpRequestException ex)
     {
         // Unable to sync speakers, that is alright as we have offline capabilities
         Debug.WriteLine("Unable to sync with backend." + ex);
